@@ -1,0 +1,69 @@
+
+
+footer {
+    color: #fff;
+    background: linear-gradient(to bottom, #633, #000);
+    padding-top: 24px;
+    padding-bottom: 48px;
+}
+
+footer a:link {
+    color: #fff;
+}
+
+footer a:visited {
+    color: #ccc;
+}
+
+footer a:hover {
+    color: #9c9;
+}
+
+/* Footer wrap for making each one of them display in a row. */
+.footer-wrap {
+    display: flex;
+    border-right: 1px solid #666;
+    padding: 3px;
+    justify-content: space-between;
+}
+
+.footer-column {
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    padding: 3px;
+}
+
+.footerhead {
+    font-size: small;
+    border-bottom: 2px solid whitesmoke;
+}
+
+.bottom {
+    text-align: center;
+    font-size: x-small;
+}
+
+
+li:hover {
+    text-decoration: underline;
+}
+
+
+
+.bottom {
+    justify-content: center;
+}
+
+li {
+    display: flex;
+}
+
+ul {
+    display: contents;
+}
+
+.quote-author {
+    text-align: center;
+}
+

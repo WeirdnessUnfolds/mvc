@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+        
+     
+    <main>
+        <article>
+                <header>
+                    <h1> Om mig själv</h1>
+                </header>
+            <figure class="figure right">
+                <img src="{{ asset('img/me.png') }}" width="300" class="me" alt="Det här är en bild på mig för runt ett halvår sedan.">
+                <figcaption>Simon Långström</figcaption>
+            </figure>
+        
+            <p>Jag heter Simon Långström och ska som ni kanske vet gå webprogrammeringsprogrammet här på BTH.
+            När det kommer till intressen har jag rätt många, men jag gillar en bokgenre som heter cosmic horror, rollspel, samt 
+            allt som har med Tolkien och Sagan om Ringen att göra. Programmering är såklart också kul!</p>
+        </article>
+            
+    </main>
+
+{% endblock %}

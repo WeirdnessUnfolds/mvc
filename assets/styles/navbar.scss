@@ -1,0 +1,27 @@
+
+:root {
+    --light-grey: #c1b1b1;
+}
+
+
+.navbar {
+    font-family: 'Eagle Lake', cursive;
+    font-size: 22px;
+    text-align: center;
+    border-top: 2px solid var(--light-grey);
+    text-shadow: 2px 2px 3px var(--light-grey);
+    padding-right: 32px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.navbar a {
+    color: #111;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    color: #dde4ff;
+    text-decoration: underline;
+}
+

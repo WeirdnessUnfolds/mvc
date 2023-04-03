@@ -1,0 +1,47 @@
+.twocol {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#reportcontent {
+    flex-direction: row-reverse;
+}
+
+.conttable h1 {
+    border-bottom: 1px solid #ccc;
+    font-family: 'Eagle Lake', cursive;
+}
+
+.conttable {
+    padding-top: 4px;
+}
+
+
+.twocol > .main {
+    width: calc(100% / 16 * 12); /* 12/16 width */
+}
+
+.twocol > .aside {
+    width: calc(100% / 16 * 4); /* 4/16 width */
+}
+
+
+.aside {
+    background-color: #fff;
+    border-right: 1px solid #ccc;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 24px;
+    font-size: small;
+}
+
+.aside h1 {
+    border-bottom: 1px solid #ccc;
+}
+
+.reportcontent {
+    float: left;
+}

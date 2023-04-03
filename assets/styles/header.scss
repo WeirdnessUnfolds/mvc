@@ -1,0 +1,43 @@
+
+:root {
+    --light-grey: #eadad7;
+}
+
+
+
+.headermimg {
+    max-width: 100%;
+}
+
+
+header {
+    margin: 0;
+    padding: 4px;
+    color: #111;
+    background-color: #fff;
+    font: 16px/1.5 Verdana, Geneva, sans-serif; /* In case other text is used that is not any other classified text, such as image texts and the like. */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    border-bottom: solid var(--light-grey);
+}
+
+.title {    /* Title modifying! */
+    font-family: 'Eagle Lake', cursive;
+    font-size: 32px;
+    text-shadow: 5px 4px 3px var(--light-grey);
+}
+
+.subtitle {    /* Title modifying! */
+    font-family: 'Eagle Lake', cursive;
+    font-size: 14px;
+    text-decoration: wavy;
+}
+
+
+.logo {
+    position: relative;
+    right: 200px;
+    top: 120px;
+}

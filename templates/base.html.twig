@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="{{ asset('img/my_favicon.png') }}">
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <header class="site-header" style="background-image: url({{ asset('img/headertext.jpg') }})">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&family=Orbitron&display=swap" rel="stylesheet">
+    <img src="{{ asset('img/headertext.png') }}" width="1000" class="headerimg" alt="Texten på härskarringen i tengwar.">
+    <body>
+    <nav class="navbar">
+            <ul>
+                <li><a href="{{ path('home') }}">Home </a></li>
+                <li><a href="{{ path('about') }}">About </a></li>
+                <li><a href="{{ path('lucky') }}">Lucky Number </a></li>
+                <li><a href="{{ path('report') }}">Report </a></li>
+                <li><a href="{{ path('quote') }}">Quote of the month</a></li>
+            </ul>
+        </nav>
+        {% block body %}
+        {% endblock %}
+    </header>
+    <footer>
+
+    <div class="bottom">
+        <p>This site is copyrighted &copy; by me, Simon Långström.</p>
+    </div>
+
+    </footer>
+    </body>
+</html>
