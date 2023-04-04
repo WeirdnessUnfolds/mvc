@@ -1,0 +1,14 @@
+
+{% extends "base.html.twig" %}
+
+{% block title %}Random quote{% endblock %}
+
+{% block body %}
+<main>
+    <h1>Quote</h1>
+    <div class= "quotetext">
+    <p>{{ quote }}, Generated {{ datetime }}
+    </p>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html.twig" %}
+
+{% block title %}About{% endblock %}
+
+{% block body %}
+<div class="twocol">
+      <main class="main">
+            <article>
+                  <header>   
+                     <h2>Om kursen och webbplatsen</h2>   
+                  </header>
+                  <p>Den här sidan innehåller lite info om mig, själva kursen, och rapporterna
+                   jag kommer att lägga upp. Här är en bild som jag tycker är representativ för kursen.
+                   Mitt githubrepo: <a href= "https://github.com/WeirdnessUnfolds/mvc">Länk</a></p>
+                  <figure class="figure">
+                        <img src="{{ asset('img/mvc.png') }}" width="600" class="webimg" alt="Bild som beskriver javascript.">
+                        <figcaption>En bild som beskriver javascript.</figcaption>
+                  </figure>
+
+            </article>
+      </main>
+        
+            <aside class="aside">
+                  <h1> Kursen mvc (v2)</h1>
+                  <p>Kursen <strong>Objektorienterade webbteknologier</strong> a.k.a. mvc, fokuserar på objektorienterade programmeringstekniker i programmeringsspråket PHP. 
+                  Klassiska objektorienterade konstruktioner hanteras tillsammans med objektorienterad programmering i webbaserat ramverk tillsammans med databaser samt enhetstestning.
+                  Efter genomförd kurs skall studenten kunna redogöra för utveckling med objektorienterad programmering och databaser i webbmiljö, 
+                  genom att skriftligen beskriva och sammanfatta erfarenheter och observationer från övningar och projekt. 
+                  Kursens githubrepo är: <a href= "https://github.com/dbwebb-se/mvc"> Länk</a></p>
+         
+            </aside>
+
+</div>
+{% endblock %}

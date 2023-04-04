@@ -1,0 +1,111 @@
+
+
+@import "navbar.scss";
+@import "twocol.scss";
+@import "header.scss";
+@import "footer.scss";
+
+
+body {
+    background-color: #fff;
+    font: 16px/1.5 Verdana, Geneva, sans-serif;
+    max-height: auto;
+    max-width: 100%;
+}
+
+#timeis {
+    font: 16px/1.5 Verdana, Geneva, sans-serif;
+    text-align: center;
+}
+
+main {
+    max-width: 100%;
+    padding: 0.5em;
+    border-top: 1px solid #ccc;
+    color: #333;
+    height: 100%;
+}
+
+.main,
+.main .article {
+    min-height: 25em;
+}
+
+article {
+    border-left: 1px solid #333;
+    border-right: 1px solid #333;
+    overflow: auto;
+    padding-left: 1em;
+    height: 1000px;
+}
+
+article h1 {
+    border-bottom: 1px solid #ccc;
+}
+
+.rep {
+    border-bottom: 1px solid #ccc;
+}
+
+.rep a {
+    color: #333;
+}
+
+.rep a:hover {
+    color: aquamarine;
+}
+
+header {
+    border-bottom: 1px solid #ccc;
+}
+
+.figure figcaption {
+    caption-side: bottom;
+    font-style: italic;
+    padding-top: 1em;
+}
+
+.figure {
+    justify-content: center;
+    overflow: auto;
+}
+
+.quotetext {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+}
+
+.numbertext {
+
+    text-transform: uppercase;
+    background-image: linear-gradient(
+      -225deg,
+      #231557 0%,
+      #44107a 29%,
+      #ff1361 67%,
+      #fff800 100%
+    );
+    background-size: auto auto;
+    background-clip: border-box;
+    background-size: 85% auto;
+    color: #fff;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textclip 2s linear infinite;
+    display: inline-block;
+        font-size: 100%;
+}
+
+@keyframes textclip {
+  to {
+    background-position: 85% center;
+  }
+}
+
+li {
+    display: flex;
+    padding-right: 1%;
+
+
+}
