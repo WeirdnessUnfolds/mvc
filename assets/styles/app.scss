@@ -9,6 +9,8 @@
 body {
     background-color: #fff;
     font: 16px/1.5 Verdana, Geneva, sans-serif;
+    max-height: auto;
+    max-width: 100%;
 }
 
 #timeis {
@@ -21,6 +23,7 @@ main {
     padding: 0.5em;
     border-top: 1px solid #ccc;
     color: #333;
+    height: 100%;
 }
 
 .main,
