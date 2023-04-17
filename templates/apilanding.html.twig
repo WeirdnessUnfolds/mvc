@@ -1,0 +1,13 @@
+{% extends "base.html.twig" %}
+
+{% block title %}APIs{% endblock %}
+
+{% block body %}
+<main>
+    <h1>Various APIs</h1>
+    <div class= "apitext">
+    <a href="{{ path('quote') }}">Quote</a><p>Denna routen leder till en "pure" JSON som visar ett slumpmässigt 
+    citat.</p>
+    </div>
+</main>
+{% endblock %}
