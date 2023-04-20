@@ -2,8 +2,10 @@
 
 {% block title %}Cards Shuffled{% endblock %}
 {% block body %}
-{% for cards in cardView %} 
+{% for cards in cardView %}
+<div class="card">
 {{ cards }}
+</div>
 {% endfor %}
 </p>
 {% endblock %}

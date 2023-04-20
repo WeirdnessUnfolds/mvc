@@ -44,6 +44,16 @@ class DeckOfCards
 
     }
 
+    public function drawCard()
+    {
+        $index = random_int(0, 51);
+
+        return $this->cards[$index]->getAsGraphic();
+
+
+
+    }
+
 
     
 

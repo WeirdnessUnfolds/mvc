@@ -33,6 +33,19 @@ class CardControllerTwig extends AbstractController
 
         return $this->render('card_shuffle.html.twig', $data);
     }
+
+    #[Route("/card/draw", name: "card_draw")]
+    public function draw() : Response
+    {
+        $cardDeck = new deckOfcards();
+
+        $data = [
+            "drawncard" => $cardDeck->drawCard(),
+
+        ];
+
+        return $this->render('card_draw.html.twig', $data);
+    }
     
 
 
