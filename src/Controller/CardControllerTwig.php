@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 use App\Card\Card;
+use App\Card\DeckOfCards;
+use App\Card\DeckofCardsJoker;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,15 +17,24 @@ class CardControllerTwig extends AbstractController
     #[Route("/card", name: "card_landing")]
     public function apisum() : Response
     {
-        $card = new Card();
-
-        $data = [
-            "cardView" => $card->getAsGraphic(),
-        ];
-
-        return $this->render('card.html.twig', $data);
+        return $this->render('card.html.twig');
     }
     
+    #[Route("/card/shuffle", name: "card_shuffle")]
+    public function shufflecards() : Response
+    {
+        $cardDeck = new deckOfcards();
+        $cardDeck->shuffleCards();
+
+        $data = [
+            "cardView" => $cardDeck->getDisplay(),
+
+        ];
+
+        return $this->render('card_shuffle.html.twig', $data);
+    }
+    
+
 
 
 }

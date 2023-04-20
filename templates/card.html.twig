@@ -2,6 +2,8 @@
 
 {% block title %}Card Game{% endblock %}
 {% block body %}
-<p>There will be some explanation of the classes and an UML diagram 
-here shortly. Today's card is.. {{ cardView }}</p>
+<h1>Card</h1>
+<p>Card-klassen är klassen som hanterar varje kort. Eftersom ett kort i en kortlek är mellan nummer 1 och 52 (53 med joker) så är det denna siffra 
+som jag utgick ifrån i koden. En card-instans kan antingen initieras med en siffra då ett bestämt kort initieras (det kortet som siffran motsvarar) eller utan en siffra,
+då ett slumpmässigt kort initieras.
 {% endblock %}
