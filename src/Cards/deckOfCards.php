@@ -2,7 +2,7 @@
 
 namespace App\Card;
 use App\Controller;
-use App\Card\Card;
+
 
 /*
 A class that represents a card.
@@ -44,14 +44,26 @@ class DeckOfCards
 
     }
 
-    public function drawCard()
+    public function drawCard($numofCards = null)
     {
-        $index = random_int(0, 51);
+        $heldCards = array();
 
-        return $this->cards[$index]->getAsGraphic();
+        for($i = 0; $i <= ($numofCards-1); $i++)
+        {
+         array_push($heldCards, array_pop($this->cards));
+
+        }
+        
+        $hand = new cardHand($heldCards);
+
+        return $hand->viewHand();
 
 
+    }
 
+    public function getcardsLeft()
+    {
+        return count($this->cards);
     }
 
 

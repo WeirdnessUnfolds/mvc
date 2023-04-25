@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use App\Card\Card;
+use App\Card\CardHand;
 use App\Card\DeckOfCards;
 use App\Card\DeckofCardsJoker;
 
@@ -20,7 +21,7 @@ class CardControllerTwig extends AbstractController
         return $this->render('card.html.twig');
     }
     
-    #[Route("/card/shuffle", name: "card_shuffle")]
+    #[Route("/card/deck/shuffle", name: "card_shuffle")]
     public function shufflecards() : Response
     {
         $cardDeck = new deckOfcards();
@@ -34,14 +35,33 @@ class CardControllerTwig extends AbstractController
         return $this->render('card_shuffle.html.twig', $data);
     }
 
-    #[Route("/card/draw", name: "card_draw")]
+    #[Route("/card/deck/draw", name: "card_draw")]
     public function draw() : Response
     {
         $cardDeck = new deckOfcards();
 
-        $data = [
-            "drawncard" => $cardDeck->drawCard(),
 
+        $data = [
+            "handView" => $cardDeck->drawCard(1),
+            "cardsLeft" => $cardDeck->getcardsLeft(),
+        ];
+
+        return $this->render('card_draw.html.twig', $data);
+    }
+    
+
+    #[Route("/card/deck/draw/{num<\d+>}", name: "card_draw_num")]
+    public function drawNum(int $num) : Response
+    {
+        if ($num > 52) {
+            throw new \Exception(("Du kan inte ta upp flera kort än det finns i leken!"));
+        }
+        $cardDeck = new deckOfcards();
+
+
+        $data = [
+            "handView" => $cardDeck->drawCard($num),
+            "cardsLeft" => $cardDeck->getcardsLeft(),
         ];
 
         return $this->render('card_draw.html.twig', $data);
