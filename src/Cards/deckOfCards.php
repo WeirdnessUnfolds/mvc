@@ -12,7 +12,7 @@ class DeckOfCards
 {   /* Represents the color and value of the card, random
     number between 1 and 53. */
     protected $cards;
-    protected $cardDisplay;
+    protected $cardDisplay = array();
 
     public function __construct()
     {  
@@ -29,9 +29,9 @@ class DeckOfCards
     }   
 
     public function getDisplay()
-    {
+    {   
         foreach ($this->cards as $currcard){
-            array_push($this->cardDisplay, $currcard->getAsGraphic());
+            $this->cardDisplay[$currcard->getAsGraphic()] = $currcard->getColor();
         }
         return $this->cardDisplay;
     }
@@ -42,6 +42,11 @@ class DeckOfCards
      shuffle($this->cards);
 
 
+    }
+
+    public function getCards()
+    {
+        return $this->cards;
     }
 
     public function drawCard($numofCards = null)

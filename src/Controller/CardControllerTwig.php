@@ -5,9 +5,10 @@ use App\Card\Card;
 use App\Card\CardHand;
 use App\Card\DeckOfCards;
 use App\Card\DeckofCardsJoker;
-
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CardControllerTwig extends AbstractController
@@ -21,24 +22,42 @@ class CardControllerTwig extends AbstractController
         return $this->render('card.html.twig');
     }
     
-    #[Route("/card/deck/shuffle", name: "card_shuffle")]
-    public function shufflecards() : Response
-    {
-        $cardDeck = new deckOfcards();
-        $cardDeck->shuffleCards();
 
+
+
+    #[Route("/card/deck/shuffle", name: "card_shuffle", methods:['POST', 'GET'])]
+    public function initCallBack(
+        SessionInterface $session
+    ) : Response
+    {   
+        $session->clear();
+        $playingDeck = new deckOfcards();
+        $session->set("active_deck", $playingDeck);
+        $deckColors = array();
+        $playingDeck->shuffleCards();
+        
+      
+        for ($i = 0; $i < 51; $i++ )
+        {
+            $currcard = $playingDeck->getCards()[$i];
+            array_push($deckColors, ($currcard->getColor()));
+        }
+        $session->clear();
+        $session->set("active_deck", $playingDeck);
+    
         $data = [
-            "cardView" => $cardDeck->getDisplay(),
-
+            "cardView" => $playingDeck->getDisplay(),
+            "colors" => $session->get("deck_colors")
         ];
-
-        return $this->render('card_shuffle.html.twig', $data);
+        return $this->render("card_shuffle.html.twig", $data);
     }
 
     #[Route("/card/deck/draw", name: "card_draw")]
-    public function draw() : Response
+    public function draw(
+        SessionInterface $session
+    ) : Response
     {
-        $cardDeck = new deckOfcards();
+        $cardDeck = $session->get("active_deck");
 
 
         $data = [
@@ -50,13 +69,16 @@ class CardControllerTwig extends AbstractController
     }
     
 
-    #[Route("/card/deck/draw/{num<\d+>}", name: "card_draw_num")]
-    public function drawNum(int $num) : Response
-    {
-        if ($num > 52) {
+    #[Route("/card/deck/draw/{num<\d+>}", name: "card_draw_num", methods: ['GET'])]
+    public function drawNum(int $num,
+    SessionInterface $session) : Response
+    {   
+        $deckColors = array();
+        $activedeck = $session->get("active_deck");
+        if ($num > 52 or $num > count($activedeck->getCards())) {
             throw new \Exception(("Du kan inte ta upp flera kort än det finns i leken!"));
         }
-        $cardDeck = new deckOfcards();
+        $cardDeck = $session->get("active_deck");
 
 
         $data = [
@@ -66,6 +88,7 @@ class CardControllerTwig extends AbstractController
 
         return $this->render('card_draw.html.twig', $data);
     }
+
     
 
 

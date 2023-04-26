@@ -3,8 +3,18 @@
 {% block title %}Drawn card{% endblock %}
 {% block body %}
 <h1>Dina dragna kort är... </h1>
-{%for card in handView %}
-    <div class="card">{{ card }}</div>
+{% for card, color in handView %}
+{% if color == "Red" %}
+            <div class="cards" style="color:red">{{ card }}</div>
+{% else %}
+    <div class="cards">{{ card }}</div>
+            {% endif %}
 {% endfor %}
+
 <p>Det finns {{ cardsLeft }} kort kvar i leken.</p>
+<div class="options">
+    <li><a href="{{ path('card_shuffle') }}">Blanda igen</a></li>
+    <li><a href="{{ path('card_draw_num', {num: 1 }) }}">Ta upp det översta kortet i leken </a></li>
+    <li><a href="{{ path('card_draw_num', {num: 5 }) }}">Ta upp de fem översta korten i leken </a></li>
+</div>
 {% endblock %}

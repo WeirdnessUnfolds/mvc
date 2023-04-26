@@ -31,6 +31,36 @@ class Card
         return $this->cardvalue;
     }
 
+    public function getColor() {
+
+        $color = "";
+        if ( $this->cardvalue <= 13)
+        {
+            $color = "Black";
+        }
+        
+        else if ($this->cardvalue > 13 and $this->cardvalue <= 26) {
+            $color = "Red";
+        }
+        
+        else if ($this->cardvalue > 26 and $this->cardvalue <= 39)
+        {
+            $color = "Red";
+
+        }
+        
+        else if ($this->cardvalue > 39 and $this->cardvalue <= 52)
+        {
+            $color = "Black";
+
+        }
+
+        return $color;
+
+
+
+    }
+
     public function getAsGraphic(): string 
     {
         if ( $this->cardvalue <= 13)
