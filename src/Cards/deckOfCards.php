@@ -13,12 +13,14 @@ class DeckOfCards
     number between 1 and 53. */
     protected $cards;
     protected $cardDisplay = array();
+    protected $cardDisplayAPI = array(); // For the API display
 
     public function __construct()
     {  
 
         $this->cards = array();
         $this->cardDisplay = array();
+        $this->cardDisplayAPI = array();
 
        for ($i = 1; $i <= 52; $i++)
        {
@@ -28,12 +30,21 @@ class DeckOfCards
         
     }   
 
-    public function getDisplay()
+    public function getDisplayAPI()
     {   
         foreach ($this->cards as $currcard){
-            $this->cardDisplay[$currcard->getAsGraphic()] = $currcard->getColor();
+            array_push($this->cardDisplayAPI, $currcard);
+        }
+        return $this->cardDisplayAPI;
+    }
+    public function getDisplay()
+    {
+        foreach ($this->cards as $currcard){
+            $this->cardDisplay[$currcard->getAsGraphic()]["Color: "] = $currcard->getColor();
         }
         return $this->cardDisplay;
+
+
     }
 
     public function shuffleCards()

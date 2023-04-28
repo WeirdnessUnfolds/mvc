@@ -22,7 +22,25 @@ class CardControllerTwig extends AbstractController
         return $this->render('card.html.twig');
     }
     
+    #[Route("/card/deck", name: "card_getdeck", methods:['POST', 'GET'])]
+    public function getDeck(
+        SessionInterface $session) : Response 
+    {
 
+        $deck = new DeckOfCards();
+        $session->set("active_deck", $deck);
+        $data = [
+            "deckView" => $deck->getDisplay(),
+
+        ];
+
+
+        
+    
+        return $this->render("card_deckview.html.twig", $data);
+    }
+
+    
 
 
     #[Route("/card/deck/shuffle", name: "card_shuffle", methods:['POST', 'GET'])]
@@ -32,22 +50,11 @@ class CardControllerTwig extends AbstractController
     {   
         $session->clear();
         $playingDeck = new deckOfcards();
-        $session->set("active_deck", $playingDeck);
-        $deckColors = array();
         $playingDeck->shuffleCards();
-        
-      
-        for ($i = 0; $i < 51; $i++ )
-        {
-            $currcard = $playingDeck->getCards()[$i];
-            array_push($deckColors, ($currcard->getColor()));
-        }
-        $session->clear();
         $session->set("active_deck", $playingDeck);
     
         $data = [
-            "cardView" => $playingDeck->getDisplay(),
-            "colors" => $session->get("deck_colors")
+            "cardView" => $playingDeck->getDisplay()
         ];
         return $this->render("card_shuffle.html.twig", $data);
     }
@@ -89,6 +96,7 @@ class CardControllerTwig extends AbstractController
         return $this->render('card_draw.html.twig', $data);
     }
 
+   
     
 
 
