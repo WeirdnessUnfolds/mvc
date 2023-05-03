@@ -1,9 +1,8 @@
 
-
-@import "navbar.scss";
-@import "twocol.scss";
-@import "header.scss";
-@import "footer.scss";
+@import "navbar";
+@import "twocol";
+@import "header";
+@import "footer";
 
 
 body {
@@ -76,7 +75,6 @@ header {
 }
 
 .numbertext {
-
     text-transform: uppercase;
     background-image: linear-gradient(
       -225deg,
@@ -85,12 +83,9 @@ header {
       #ff1361 67%,
       #fff800 100%
     );
-    background-size: auto auto;
-    background-clip: border-box;
     background-size: 85% auto;
     color: #fff;
     background-clip: text;
-    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: textclip 2s linear infinite;
     display: inline-block;

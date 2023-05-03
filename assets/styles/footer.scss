@@ -42,21 +42,16 @@ footer a:hover {
 .bottom {
     text-align: center;
     font-size: x-small;
-}
-
-
-li:hover {
-    text-decoration: underline;
-}
-
-
-
-.bottom {
     justify-content: center;
 }
 
+
 li {
     display: flex;
+}
+
+li:hover {
+    text-decoration: underline;
 }
 
 ul {

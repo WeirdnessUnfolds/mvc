@@ -20,14 +20,6 @@
 }
 
 
-.twocol > .main {
-    width: calc(100% / 16 * 12); /* 12/16 width */
-}
-
-.twocol > .aside {
-    width: calc(100% / 16 * 4); /* 4/16 width */
-}
-
 
 .aside {
     background-color: #fff;
@@ -37,6 +29,15 @@
     padding-top: 24px;
     font-size: small;
 }
+
+.twocol > .main {
+    width: calc(100% / 16 * 12); /* 12/16 width */
+}
+
+.twocol > .aside {
+    width: calc(100% / 16 * 4); /* 4/16 width */
+}
+
 
 .aside h1 {
     border-bottom: 1px solid #ccc;

@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 namespace App\Card;
-use App\Controller;
 
+use App\Controller;
 
 /*
 A class that represents a card.
@@ -15,42 +15,32 @@ class Card
     protected $cardgraphic;
     private $utf8_card;
     public function __construct($enteredvalue = null)
-    {  
-        if ($enteredvalue == null) // If no value between 1 and 53 is entered, a random card is shown.
-        {
+    {
+        if ($enteredvalue == null) { // If no value between 1 and 53 is entered, a random card is shown.
             $this->cardvalue = random_int(1, 53);
-        }
-        else {
+        } else {
             $this->cardvalue = $enteredvalue;
         }
         $this->cardgraphic = null;
-    }   
+    }
 
     public function getcardNumrep(): int
     {
         return $this->cardvalue;
     }
 
-    public function getColor() {
+    public function getColor()
+    {
 
         $color = "";
-        if ( $this->cardvalue <= 13)
-        {
+        if ($this->cardvalue <= 13) {
             $color = "Black";
-        }
-        
-        else if ($this->cardvalue > 13 and $this->cardvalue <= 26) {
+        } elseif ($this->cardvalue > 13 and $this->cardvalue <= 26) {
             $color = "Red";
-        }
-        
-        else if ($this->cardvalue > 26 and $this->cardvalue <= 39)
-        {
+        } elseif ($this->cardvalue > 26 and $this->cardvalue <= 39) {
             $color = "Red";
 
-        }
-        
-        else if ($this->cardvalue > 39 and $this->cardvalue <= 52)
-        {
+        } elseif ($this->cardvalue > 39 and $this->cardvalue <= 52) {
             $color = "Black";
 
         }
@@ -61,43 +51,31 @@ class Card
 
     }
 
-    public function getAsGraphic(): string 
+    public function getAsGraphic(): string
     {
-        if ( $this->cardvalue <= 13)
-        {
+        if ($this->cardvalue <= 13) {
             $this->utf8_card  = mb_ord("🂡", "UTF-8");
-        }
-        
-        else if ($this->cardvalue > 13 and $this->cardvalue <= 26) {
+        } elseif ($this->cardvalue > 13 and $this->cardvalue <= 26) {
             $this->utf8_card = mb_ord("🂱", "UTF-8");
-        }
-        
-        else if ($this->cardvalue > 26 and $this->cardvalue <= 39)
-        {
+        } elseif ($this->cardvalue > 26 and $this->cardvalue <= 39) {
             $this->utf8_card  = mb_ord("🃁", "UTF-8");
 
-        }
-        
-        else if ($this->cardvalue > 39 and $this->cardvalue <= 52)
-        {
+        } elseif ($this->cardvalue > 39 and $this->cardvalue <= 52) {
             $this->utf8_card  = mb_ord("🃑", "UTF-8");
 
         }
 
-        if ($this->cardvalue == 53)  // The number 53 represents the joker.
-        {
+        if ($this->cardvalue == 53) {  // The number 53 represents the joker.
             $this->utf8_card = mb_ord("🂿", "UTF-8");
 
-        }
-        else {  
-            for($i = 1; $i <= ($this->cardvalue % 13); $i++)
-            {   
+        } else {
+            for($i = 1; $i <= ($this->cardvalue % 13); $i++) {
                 ++$this->utf8_card;
             }
         }
 
-    return mb_chr($this->utf8_card, "UTF-8");
-}
+        return mb_chr($this->utf8_card, "UTF-8");
+    }
 
 
 

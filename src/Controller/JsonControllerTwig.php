@@ -11,9 +11,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class JsonControllerTwig extends AbstractController
 {
-
     #[Route("/api", name: "api_landing")]
-    public function apisum() : Response
+    public function apisum(): Response
     {
         return $this->render('apilanding.html.twig');
     }
@@ -21,8 +20,7 @@ class JsonControllerTwig extends AbstractController
     #[Route("/api/deck", name:"api_deck", methods:['GET'])]
     public function apideck(
         SessionInterface $session
-    ) : Response 
-    {
+    ): Response {
         $deck = new DeckOfCards();
 
         $session->set("active_deck", $deck);
@@ -31,12 +29,12 @@ class JsonControllerTwig extends AbstractController
             "deckView" => $deck->getDisplay(),
 
         ];
-    
-    
+
+
         $response = new JsonResponse($data);
         $response->setEncodingOptions(
             $response->getEncodingOptions() | JSON_UNESCAPED_UNICODE
-            );
+        );
         return $response;
 
 
@@ -45,8 +43,7 @@ class JsonControllerTwig extends AbstractController
     #[Route("api/deck/shuffle", name:"api_shuffle", methods:['POST'])]
     public function apishuffle(
         SessionInterface $session
-    ) : Response 
-    {
+    ): Response {
         $session->clear();
         $deck = new deckOfcards();
         $deck->shuffleCards();
@@ -55,12 +52,12 @@ class JsonControllerTwig extends AbstractController
             "deckView" => $deck->getDisplay(),
 
         ];
-    
-    
+
+
         $response = new JsonResponse($data);
         $response->setEncodingOptions(
             $response->getEncodingOptions() | JSON_UNESCAPED_UNICODE
-            );
+        );
         return $response;
 
 

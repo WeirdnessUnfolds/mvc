@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+
 use App\Card\Card;
 use App\Card\CardHand;
 use App\Card\DeckOfCards;
@@ -13,19 +14,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CardControllerTwig extends AbstractController
 {
-
-
-
     #[Route("/card", name: "card_landing")]
-    public function apisum() : Response
+    public function apisum(): Response
     {
         return $this->render('card.html.twig');
     }
-    
+
     #[Route("/card/deck", name: "card_getdeck", methods:['POST', 'GET'])]
     public function getDeck(
-        SessionInterface $session) : Response 
-    {
+        SessionInterface $session
+    ): Response {
 
         $deck = new DeckOfCards();
         $session->set("active_deck", $deck);
@@ -35,24 +33,23 @@ class CardControllerTwig extends AbstractController
         ];
 
 
-        
-    
+
+
         return $this->render("card_deckview.html.twig", $data);
     }
 
-    
+
 
 
     #[Route("/card/deck/shuffle", name: "card_shuffle", methods:['POST', 'GET'])]
     public function initCallBack(
         SessionInterface $session
-    ) : Response
-    {   
+    ): Response {
         $session->clear();
         $playingDeck = new deckOfcards();
         $playingDeck->shuffleCards();
         $session->set("active_deck", $playingDeck);
-    
+
         $data = [
             "cardView" => $playingDeck->getDisplay()
         ];
@@ -62,8 +59,7 @@ class CardControllerTwig extends AbstractController
     #[Route("/card/deck/draw", name: "card_draw")]
     public function draw(
         SessionInterface $session
-    ) : Response
-    {
+    ): Response {
         $cardDeck = $session->get("active_deck");
 
 
@@ -74,12 +70,13 @@ class CardControllerTwig extends AbstractController
 
         return $this->render('card_draw.html.twig', $data);
     }
-    
+
 
     #[Route("/card/deck/draw/{num<\d+>}", name: "card_draw_num", methods: ['GET'])]
-    public function drawNum(int $num,
-    SessionInterface $session) : Response
-    {   
+    public function drawNum(
+        int $num,
+        SessionInterface $session
+    ): Response {
         $deckColors = array();
         $activedeck = $session->get("active_deck");
         if ($num > 52 or $num > count($activedeck->getCards())) {
@@ -96,8 +93,8 @@ class CardControllerTwig extends AbstractController
         return $this->render('card_draw.html.twig', $data);
     }
 
-   
-    
+
+
 
 
 
