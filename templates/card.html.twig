@@ -5,5 +5,36 @@
 <h1>Card</h1>
 <p>Card-klassen är klassen som hanterar varje kort. Eftersom ett kort i en kortlek är mellan nummer 1 och 52 (53 med joker) så är det denna siffra 
 som jag utgick ifrån i koden. En card-instans kan antingen initieras med en siffra då ett bestämt kort initieras (det kortet som siffran motsvarar) eller utan en siffra,
-då ett slumpmässigt kort initieras.
+då ett slumpmässigt kort initieras. Den har även en funktion som skriver ut vilken färg kortet har, getColor, samt en funktion som skriver ut "numret" som kortet har i leken, 
+getcardNumrep.
+
+<h1>cardHand</h1>
+<p>CardHand-klassen är en klass som aggregerar kort från card-klassen, och håller därmed reda på hur många kort som finns i varje hand. Denna kan antingen initieras utan en parameter, där då fem kort automatiskt kommer att 
+hamna i handen, eller så specifierar man antalet kort som ska tas upp via parametern. Klassen har även en funktion som heter viewHand, som visar upp korten i handen.
+
+<h1>deckOfCards</h1>
+deckOfCards-klassen är själva kortleken, som i det här fallet innehåller 52 kort, som alltså inte har någon joker.
+Om ett eller flera kort dras med hjälp av drawCard-funktionen så försvinner de från leken. Det finns även en funktion som visar leken i en JSON, getDisplayAPI, samt en funktion som blandar leken, shuffleCards.
+
+<h1>deckOfCardsJoker</h1> 
+Klassen ärver från deckOfCards, och är en kortlek med ett extra kort, en joker. Alltså innehåller en lek med en joker 53 kort. Just nu är bara visnings-funktionen implementerad för en kortlek med joker.</p>
+
+
+<h2>UML-diagram</h2>
+<img src="{{ asset('img/umldiagram.png') }}" width="1000" class="headerimg" alt="Ett UML-diagram som visar den nuvarande formen av kort-programmet.">
+
+
+
+
+<div class="options">
+    <li><a href="{{ path('card_getdeck')}}">Visa upp hela leken sorterad efter färg och valör. (Initierar sesionen.)</a></li>
+    <li><a href="{{ path('card_getdeckjoker')}}">Visa upp hela leken sorterad efter färg och valör, med en joker.</a></li>
+    <li><a href="{{ path('card_shuffle') }}">Blanda leken (återställer leken om det finns den finns sparad i en session).</a></li>
+    <li><a href="{{ path('card_draw_num', {num: 1 }) }}">Ta upp det översta kortet i leken </a></li>
+    <li><a href="{{ path('card_draw_num', {num: 5 }) }}">Ta upp de fem översta korten i leken </a></li>
+    <li><a href="{{ path('api_landing') }}">Gå till API-versionen </a></li>
+</div>
+
+
+
 {% endblock %}

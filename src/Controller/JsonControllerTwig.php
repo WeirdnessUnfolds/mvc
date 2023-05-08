@@ -66,4 +66,61 @@ class JsonControllerTwig extends AbstractController
     }
 
 
+    #[Route("/api/deck/draw", name: "card_drawapi", methods: ['POST'])]
+    public function drawAPI(
+        SessionInterface $session
+    ): Response {
+        $cardDeck = $session->get("active_deck");
+        if (count($cardDeck->getCards()) < 0) {
+            throw new \Exception(("Du kan inte ta upp flera kort än det finns i leken!"));
+        }
+
+        $data = [
+            "handView" => $cardDeck->drawCard(1),
+            "cardsLeft" => $cardDeck->getcardsLeft(),
+        ];
+
+
+
+        $response = new JsonResponse($data);
+        $response->setEncodingOptions(
+            $response->getEncodingOptions() | JSON_UNESCAPED_UNICODE
+        );
+        return $response;
+
+
+    }
+
+
+    #[Route("/api/deck/draw/{num<\d+>}", name: "card_drawseveralapi", methods: ['POST'])]
+    public function drawNum(
+        int $num,
+        SessionInterface $session
+    ): Response {
+        $activedeck = $session->get("active_deck");
+        if ($num > 52 or $num > count($activedeck->getCards())) {
+            throw new \Exception(("Du kan inte ta upp flera kort än det finns i leken!"));
+        }
+        $cardDeck = $session->get("active_deck");
+
+
+        $data = [
+            "handView" => $cardDeck->drawCard($num),
+            "cardsLeft" => $cardDeck->getcardsLeft(),
+        ];
+
+
+        $response = new JsonResponse($data);
+        $response->setEncodingOptions(
+            $response->getEncodingOptions() | JSON_UNESCAPED_UNICODE
+        );
+        return $response;
+
+
+    }
+
+
+
+
+
 }

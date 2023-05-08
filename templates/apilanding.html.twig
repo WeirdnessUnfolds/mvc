@@ -9,7 +9,7 @@
     <a href="{{ path('quote') }}">Quote</a><p>Denna routen leder till en JSON som visar ett slumpmässigt 
     citat.</p>
     <a href="{{ path('api_deck') }}">Deck</a><p>Denna routen leder till en JSON som visar en kortlek sorterad efter färg och valör.
-    Notera att UTF-8-bitarna representerar ett UTF-8-kort.</p>
+    Börja med den här innan du testar de andra funktionerna, då denna initierar sessionen.</p>
 
 
 
@@ -18,6 +18,13 @@
         <input type="submit" name="Blanda API" value="Blanda API"
         onClick="this.form.action='{{ path('api_shuffle') }}';">
         <p>Den här routen är en POST som blandar och samtidigt nollställer kortleken. En JSON returneras som är den blandade kortleken.</p>
+        <input type="submit" name="drawone_api" value="Ta upp ett kort API"
+        onClick="this.form.action='{{ path('card_drawapi') }}';">
+        <p>Den här routen är en POST som tar upp det översta kortet ur leken. En JSON returneras som motsvarar det kortet som har tagits upp.</p>
+        <input type="submit" name="drawseveral_api" value="Ta upp fem kort API"
+        onClick="this.form.action='{{ path('card_drawseveralapi', {num: 5 }) }}';">
+        <p>Den här routen är en POST som tar upp fem kort ur leken. En JSON returneras som motsvarar de korten som har tagits upp.
+        Det går även att ta upp ett eget antal kort genom att lägga </p>
     </form>
     </div>
 </main>

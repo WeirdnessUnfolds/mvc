@@ -20,7 +20,7 @@ class CardControllerTwig extends AbstractController
         return $this->render('card.html.twig');
     }
 
-    #[Route("/card/deck", name: "card_getdeck", methods:['POST', 'GET'])]
+    #[Route("/card/deck", name: "card_getdeck", methods: ['POST', 'GET'])]
     public function getDeck(
         SessionInterface $session
     ): Response {
@@ -38,10 +38,29 @@ class CardControllerTwig extends AbstractController
         return $this->render("card_deckview.html.twig", $data);
     }
 
+    #[Route("/card/deckjoker", name: "card_getdeckjoker", methods: ['POST', 'GET'])] // Because there should be no parameter in the "normal" card/deck..
+    public function getDeckJoker(
+        SessionInterface $session
+    ): Response {
+
+        $deck = new DeckOfCardsJoker();
+        $session->set("active_deck", $deck);
+        $data = [
+            "deckView" => $deck->getDisplay(),
+
+        ];
 
 
 
-    #[Route("/card/deck/shuffle", name: "card_shuffle", methods:['POST', 'GET'])]
+
+        return $this->render("card_deckview.html.twig", $data);
+    }
+
+
+
+
+
+    #[Route("/card/deck/shuffle", name: "card_shuffle", methods: ['POST', 'GET'])]
     public function initCallBack(
         SessionInterface $session
     ): Response {
@@ -56,15 +75,21 @@ class CardControllerTwig extends AbstractController
         return $this->render("card_shuffle.html.twig", $data);
     }
 
+
+
+
     #[Route("/card/deck/draw", name: "card_draw")]
     public function draw(
         SessionInterface $session
     ): Response {
         $cardDeck = $session->get("active_deck");
+        $drawnCards = $cardDeck->drawCard(1);
+        $hand = new cardHand($drawnCards);
+
 
 
         $data = [
-            "handView" => $cardDeck->drawCard(1),
+            "handView" => $hand->viewHand(),
             "cardsLeft" => $cardDeck->getcardsLeft(),
         ];
 
@@ -92,10 +117,4 @@ class CardControllerTwig extends AbstractController
 
         return $this->render('card_draw.html.twig', $data);
     }
-
-
-
-
-
-
 }

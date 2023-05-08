@@ -25,7 +25,7 @@ class CardHand
     public function viewHand()
     {
         foreach ($this->cardsInhand as $currcard) {
-            $this->graphicarray[$currcard->getAsGraphic()] = $currcard->getColor();
+            $this->graphicarray[$currcard->getAsGraphic()]["Color: "] = $currcard->getColor();
         }
         return $this->graphicarray;
     }
