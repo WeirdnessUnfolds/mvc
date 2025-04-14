@@ -20,6 +20,33 @@ class CardControllerTwig extends AbstractController
         return $this->render('card.html.twig');
     }
 
+
+    #[Route("/session", name: "session", methods: ['GET'])]
+    public function printSession(SessionInterface $session): Response
+    {
+        $sessionData = $session->all();
+
+        $response = new JsonResponse($sessiondata);
+        $response->setEncodingOptions(
+            $response->getEncodingOptions() | JSON_UNESCAPED_UNICODE
+        );
+
+        return $this->render('session_view.html.twig', [
+            'sessiondata' => $response,
+        ]);
+    }
+
+    
+    #[Route("/session_clear", name: "session_clear", methods: ['POST'])]
+    public function clearSession(SessionInterface $session): Response
+    {
+        $session->clear();
+        $this.addFlash('success', 'Sessionen har blivit rensad.');
+        return $this->render('apilanding.html.twig');
+    }
+
+
+
     #[Route("/card/deck", name: "card_getdeck", methods: ['POST', 'GET'])]
     public function getDeck(
         SessionInterface $session

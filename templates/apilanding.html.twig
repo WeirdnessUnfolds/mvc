@@ -12,9 +12,11 @@
     Börja med den här innan du testar de andra funktionerna, då denna initierar sessionen.</p>
 
 
-
     
     <form method="post" action="">
+        <input type="submit" name="Rensa session" value="Rensa session"
+        onClick="this.form.action='{{ path('session_clear') }}';"
+        <p>Rensar sessionen från allt dess innehåll.</p>
         <input type="submit" name="Blanda API" value="Blanda API"
         onClick="this.form.action='{{ path('api_shuffle') }}';">
         <p>Den här routen är en POST som blandar och samtidigt nollställer kortleken. En JSON returneras som är den blandade kortleken.</p>

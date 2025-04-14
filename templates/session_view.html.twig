@@ -1,0 +1,34 @@
+{% extends "base.html.twig" %}
+
+    {% block title %}Session Data{% endblock %}
+    {% block body %}
+    {% if sessionData is not empty %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, value in sessionData %}
+        <tr>
+            <td>{{ key }}</td>
+            <td>
+                {% if value is iterable %}
+                    <pre>{{ value|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                {% elseif value is object %}
+                    {# Serialize the object to JSON for display #}
+                    <pre>{{ value|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                {% else %}
+                    {{ value }}
+                {% endif %}
+            </td>
+        </tr>
+{% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No session data available.</p>
+    {% endif %}
+    {% endblock %}

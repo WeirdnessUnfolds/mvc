@@ -2,8 +2,8 @@
 
 {% block title %}Hela leken{% endblock %}
 {% block body %}
-{% for card, color in deckView %}
-{% if color == "Red" %}
+{% for card, attributes in deckView %}
+    {% if attributes["Color: "] == "Red" %}
             <div class="cards" style="color:red">{{ card }}</div>
 {% else %}
     <div class="cards">{{ card }}</div>
