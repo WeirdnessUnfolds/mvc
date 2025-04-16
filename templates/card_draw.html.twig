@@ -3,13 +3,15 @@
 {% block title %}Drawn card{% endblock %}
 {% block body %}
 <h1>Dina dragna kort är... </h1>
+<div class="card-container">
 {% for card, attributes in handView %}
 {% if attributes["Color: "] == "Red" %}
-            <div class="cards" style="color:red">{{ card }}</div>
+            <div class="card" style="color:red">{{ card }}</div>
 {% else %}
-    <div class="cards">{{ card }}</div>
+    <div class="card">{{ card }}</div>
             {% endif %}
 {% endfor %}
+</div>
 
 <p>Det finns {{ cardsLeft }} kort kvar i leken.</p>
 <div class="options">

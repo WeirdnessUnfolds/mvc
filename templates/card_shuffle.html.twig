@@ -2,19 +2,19 @@
 
 {% block title %}Blandad lek{% endblock %}
 {% block body %}
+<div class="card-container">
 {% for card, attributes in cardView %}
 {% if attributes["Color: "] == "Red" %}
-            <div class="cards" style="color:red">{{ card }}</div>
+            <div class="card" style="color:red">{{ card }}</div>
 {% else %}
-    <div class="cards">{{ card }}</div>
+    <div class="card">{{ card }}</div>
             {% endif %}
 {% endfor %}
+</div>
 
 </p>
 <div class="options">
     <li><a href="{{ path('card_shuffle') }}">Blanda igen</a></li>
-    <li><a href="{{ path('session') }}">Session</a><p>Routen leder till en sida som visar innehållet i sessionen
-    om det finns något i den.</p>
     <li><a href="{{ path('card_draw_num', {num: 1 }) }}">Ta upp det översta kortet i leken </a></li>
     <li><a href="{{ path('card_draw_num', {num: 5 }) }}">Ta upp de fem översta korten i leken </a></li>
 </div>
