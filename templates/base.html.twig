@@ -31,6 +31,13 @@
             </ul>
         </nav>
     </header>
+       {% for label, messages in app.flashes %}
+        <div class="flash-message {{ label }}">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endfor %}
     {% block body %}
     {% endblock %}
     <footer>

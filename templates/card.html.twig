@@ -27,10 +27,13 @@ Klassen ärver från deckOfCards, och är en kortlek med ett extra kort, en joke
 
 
 <div class="options">
-    <li><a href="{{ path('card_getdeck')}}">Visa upp hela leken sorterad efter färg och valör. (Initierar sesionen.)</a></li>
-    <li><a href="{{ path('card_getdeckjoker')}}">Visa upp hela leken sorterad efter färg och valör, med en joker.</a></li>
+    <li><a href="{{ path('card_getdeck')}}">Visa upp hela leken sorterad efter färg och valör. (Initierar sessionen om den är tom.)</a></li>
+    <li><a href="{{ path('card_getdeckjoker')}}">Visa upp hela leken sorterad efter färg och valör, med en joker. (Initierar sessionen om den är tom.)</a></li>
     <li><a href="{{ path('session') }}">Se sessionsinnehåll</a>
-    <li><a href="{{ path('session_clear') }}">Rensa Session</a><p>Tar bort innehållet i sessionen.</p>
+    <form method="post" action="">
+        <input type="submit" name="Rensa session" value="Rensa session"
+        onClick="this.form.action='{{ path('session_clear') }}';">
+    </form>
     <li><a href="{{ path('card_shuffle') }}">Blanda leken (återställer leken om det finns den finns sparad i en session).</a></li>
     <li><a href="{{ path('card_draw_num', {num: 1 }) }}">Ta upp det översta kortet i leken </a></li>
     <li><a href="{{ path('card_draw_num', {num: 5 }) }}">Ta upp de fem översta korten i leken </a></li>
