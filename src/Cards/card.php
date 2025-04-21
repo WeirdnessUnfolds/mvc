@@ -77,6 +77,23 @@ class Card
         return mb_chr($this->utf8_card, "UTF-8");
     }
 
+    public function serialize(): string
+    {
+        return serialize([
+            'cardvalue' => $this->cardvalue,
+            'cardgraphic' => $this->cardgraphic,
+            'utf8_card' => $this->utf8_card,
+        ]);
+    }
+
+    public function unserialize($data): void
+    {
+        $unserializedData = unserialize($data);
+        $this->cardvalue = $unserializedData['cardvalue'];
+        $this->cardgraphic = $unserializedData['cardgraphic'];
+        $this->utf8_card = $unserializedData['utf8_card'];
+    }
+
 
 
 

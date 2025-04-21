@@ -21,15 +21,22 @@ class JsonControllerTwig extends AbstractController
     public function apideck(
         SessionInterface $session
     ): Response {
-        $deck = new DeckOfCards();
 
-        $session->set("active_deck", $deck);
+        // If the deck exists already..
+        $deck = $session->get("active_deck"); 
+
+        if (!$deck) {
+            $deck = new DeckOfCards();
+            $session->set("active_deck", $deck);
+        } else {
+            $deck = $session->get("active_deck");
+            
+        }
 
         $data = [
             "deckView" => $deck->getDisplay(),
 
         ];
-
 
         $response = new JsonResponse($data);
         $response->setEncodingOptions(
@@ -44,15 +51,18 @@ class JsonControllerTwig extends AbstractController
     public function apishuffle(
         SessionInterface $session
     ): Response {
-        $session->clear();
-        $deck = new deckOfcards();
+        if (!$deck) {
+            $deck = new DeckOfCards();
+            $session->set("active_deck", $deck);
+        } else {
+            $deck = $session->get("active_deck");
+        }
         $deck->shuffleCards();
         $session->set("active_deck", $deck);
         $data = [
             "deckView" => $deck->getDisplay(),
 
         ];
-
 
         $response = new JsonResponse($data);
         $response->setEncodingOptions(
@@ -64,7 +74,6 @@ class JsonControllerTwig extends AbstractController
 
 
     }
-
 
     #[Route("/api/deck/draw", name: "card_drawapi", methods: ['POST'])]
     public function drawAPI(
@@ -80,7 +89,7 @@ class JsonControllerTwig extends AbstractController
             "cardsLeft" => $cardDeck->getcardsLeft(),
         ];
 
-
+        $session->set("active_deck", $cardDeck);
 
         $response = new JsonResponse($data);
         $response->setEncodingOptions(
@@ -101,13 +110,13 @@ class JsonControllerTwig extends AbstractController
         if ($num > 52 or $num > count($activedeck->getCards())) {
             throw new \Exception(("Du kan inte ta upp flera kort än det finns i leken!"));
         }
-        $cardDeck = $session->get("active_deck");
-
 
         $data = [
             "handView" => $cardDeck->drawCard($num),
             "cardsLeft" => $cardDeck->getcardsLeft(),
         ];
+
+        $cardDeck = $session->set("active_deck");
 
 
         $response = new JsonResponse($data);

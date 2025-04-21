@@ -24,6 +24,8 @@ class DeckOfCardsJoker extends DeckOfCards
             array_push($this->cards, $card);
         }
 
+        $this->setDisplay();
+
     }
 
 

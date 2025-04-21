@@ -9,6 +9,7 @@ use App\Card\DeckofCardsJoker;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -24,15 +25,19 @@ class CardControllerTwig extends AbstractController
     #[Route("/session", name: "session", methods: ['GET'])]
     public function printSession(SessionInterface $session): Response
     {
+
         $sessionData = $session->all();
 
-        $response = new JsonResponse($sessiondata);
-        $response->setEncodingOptions(
-            $response->getEncodingOptions() | JSON_UNESCAPED_UNICODE
-        );
+        
+    foreach ($sessionData as $key => $value) {
+        if ($value instanceof DeckOfCards || $value instanceof DeckofCardsJoker) {
+            $sessionData[$key] = $value->getDisplay();
+        } 
+    }
 
+    
         return $this->render('session_view.html.twig', [
-            'sessiondata' => $response,
+            'sessionData' => $sessionData,
         ]);
     }
 
@@ -41,8 +46,8 @@ class CardControllerTwig extends AbstractController
     public function clearSession(SessionInterface $session): Response
     {
         $session->clear();
-        $this.addFlash('success', 'Sessionen har blivit rensad.');
-        return $this->render('apilanding.html.twig');
+        $this->addFlash('success', 'Sessionen har blivit rensad.');
+        return $this->render('card.html.twig');
     }
 
 
@@ -51,17 +56,20 @@ class CardControllerTwig extends AbstractController
     public function getDeck(
         SessionInterface $session
     ): Response {
+        // If the deck exists already..
+        $deck = $session->get("active_deck"); 
 
-        $deck = new DeckOfCards();
-        $session->set("active_deck", $deck);
+        if (!$deck) {
+            $deck = new DeckOfCards();
+            $session->set("active_deck", $deck);
+        } else {
+            $deck = $session->get("active_deck");
+        }
+
         $data = [
             "deckView" => $deck->getDisplay(),
 
         ];
-
-
-
-
         return $this->render("card_deckview.html.twig", $data);
     }
 
@@ -70,15 +78,18 @@ class CardControllerTwig extends AbstractController
         SessionInterface $session
     ): Response {
 
-        $deck = new DeckOfCardsJoker();
-        $session->set("active_deck", $deck);
+        $deck = $session->get("active_deck"); 
+        if (!$deck) {
+            $deck = new DeckOfCardsJoker();
+            $session->set("active_deck", $deck);
+        } else {
+            $deck = $session->get("active_deck");
+        }
+
         $data = [
             "deckView" => $deck->getDisplay(),
 
         ];
-
-
-
 
         return $this->render("card_deckview.html.twig", $data);
     }
@@ -91,8 +102,7 @@ class CardControllerTwig extends AbstractController
     public function initCallBack(
         SessionInterface $session
     ): Response {
-        $session->clear();
-        $playingDeck = new deckOfcards();
+        $playingDeck = $session->get("active_deck");
         $playingDeck->shuffleCards();
         $session->set("active_deck", $playingDeck);
 
@@ -113,12 +123,14 @@ class CardControllerTwig extends AbstractController
         $drawnCards = $cardDeck->drawCard(1);
         $hand = new cardHand($drawnCards);
 
-
+        $session->set("active_deck", $cardDeck);
 
         $data = [
             "handView" => $hand->viewHand(),
             "cardsLeft" => $cardDeck->getcardsLeft(),
         ];
+
+        dump($cardDeck->getDeck());
 
         return $this->render('card_draw.html.twig', $data);
     }
@@ -129,7 +141,6 @@ class CardControllerTwig extends AbstractController
         int $num,
         SessionInterface $session
     ): Response {
-        $deckColors = array();
         $activedeck = $session->get("active_deck");
         if ($num > 52 or $num > count($activedeck->getCards())) {
             throw new \Exception(("Du kan inte ta upp flera kort än det finns i leken!"));
@@ -141,6 +152,8 @@ class CardControllerTwig extends AbstractController
             "handView" => $cardDeck->drawCard($num),
             "cardsLeft" => $cardDeck->getcardsLeft(),
         ];
+
+        $session->set("active_deck", $cardDeck);
 
         return $this->render('card_draw.html.twig', $data);
     }

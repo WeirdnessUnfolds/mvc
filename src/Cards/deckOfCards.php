@@ -27,6 +27,9 @@ class DeckOfCards
             array_push($this->cards, $card);
         }
 
+
+        $this->setDisplay();
+
     }
 
     public function getDisplayAPI()
@@ -38,19 +41,24 @@ class DeckOfCards
     }
     public function getDisplay()
     {
-        foreach ($this->cards as $currcard) {
-            $this->cardDisplay[$currcard->getAsGraphic()]["Color: "] = $currcard->getColor();
-        }
+
         return $this->cardDisplay;
 
 
     }
 
+    public function setDisplay()
+    {   $this->cardDisplay = array(); 
+        foreach ($this->cards as $currcard) {
+            $this->cardDisplay[$currcard->getAsGraphic()]["Color: "] = $currcard->getColor();
+        }
+    } 
+ 
     public function shuffleCards()
     {
 
         shuffle($this->cards);
-
+        $this->setDisplay();
 
     }
 
@@ -67,6 +75,8 @@ class DeckOfCards
             array_push($heldCards, array_pop($this->cards));
 
         }
+        $this->setDisplay();
+
 
         $hand = new cardHand($heldCards);
 
