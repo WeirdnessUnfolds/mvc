@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CardControllerTwig extends AbstractController
 {
-    #[Route("/card", name: "card_landing")]
+    #[Route("§/card", name: "card_landing")]
     public function apisum(): Response
     {
         return $this->render('card.html.twig');
@@ -62,8 +62,10 @@ class CardControllerTwig extends AbstractController
         if (!$deck) {
             $deck = new DeckOfCards();
             $session->set("active_deck", $deck);
+            $session->set("cards_left", $deck->getcardsLeft());
         } else {
             $deck = $session->get("active_deck");
+            $deck->sortCards();
         }
 
         $data = [
@@ -82,10 +84,10 @@ class CardControllerTwig extends AbstractController
         if (!$deck) {
             $deck = new DeckOfCardsJoker();
             $session->set("active_deck", $deck);
+            $session->set("cards_left", $deck->getcardsLeft());
         } else {
-            $deck = $session->get("active_deck");
+        $deck = $session->get("active_deck");
         }
-
         $data = [
             "deckView" => $deck->getDisplay(),
 
@@ -130,8 +132,7 @@ class CardControllerTwig extends AbstractController
             "cardsLeft" => $cardDeck->getcardsLeft(),
         ];
 
-        dump($cardDeck->getDeck());
-
+        $session->set("cards_left", $cardDeck->getcardsLeft());
         return $this->render('card_draw.html.twig', $data);
     }
 
@@ -154,7 +155,8 @@ class CardControllerTwig extends AbstractController
         ];
 
         $session->set("active_deck", $cardDeck);
-
+        $session->set("cards_left", $cardDeck->getcardsLeft());
         return $this->render('card_draw.html.twig', $data);
     }
 }
+

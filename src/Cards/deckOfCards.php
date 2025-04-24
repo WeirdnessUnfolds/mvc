@@ -29,7 +29,6 @@ class DeckOfCards
 
 
         $this->setDisplay();
-
     }
 
     public function getDisplayAPI()
@@ -60,6 +59,15 @@ class DeckOfCards
         shuffle($this->cards);
         $this->setDisplay();
 
+    }
+
+    public function sortCards()
+    {
+        
+        usort($this->cards, function ($a, $b) {
+            return $a->getcardNumrep() <=> $b->getcardNumrep();
+        });
+        $this->setDisplay();
     }
 
     public function getCards()

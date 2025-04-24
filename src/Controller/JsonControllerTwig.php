@@ -51,12 +51,7 @@ class JsonControllerTwig extends AbstractController
     public function apishuffle(
         SessionInterface $session
     ): Response {
-        if (!$deck) {
-            $deck = new DeckOfCards();
-            $session->set("active_deck", $deck);
-        } else {
-            $deck = $session->get("active_deck");
-        }
+        $deck = $session->get("active_deck");
         $deck->shuffleCards();
         $session->set("active_deck", $deck);
         $data = [
@@ -106,8 +101,8 @@ class JsonControllerTwig extends AbstractController
         int $num,
         SessionInterface $session
     ): Response {
-        $activedeck = $session->get("active_deck");
-        if ($num > 52 or $num > count($activedeck->getCards())) {
+        $cardDeck = $session->get("active_deck");
+        if ($num > 52 or $num > count($cardDeck->getCards())) {
             throw new \Exception(("Du kan inte ta upp flera kort än det finns i leken!"));
         }
 
@@ -116,7 +111,7 @@ class JsonControllerTwig extends AbstractController
             "cardsLeft" => $cardDeck->getcardsLeft(),
         ];
 
-        $cardDeck = $session->set("active_deck");
+        $session->set("active_deck", $cardDeck);
 
 
         $response = new JsonResponse($data);
