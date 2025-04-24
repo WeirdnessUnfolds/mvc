@@ -33,10 +33,14 @@ class DeckOfCards
 
     public function getDisplayAPI()
     {
+        $this->cardDisplayAPI = []; // Reset the array to avoid duplication
         foreach ($this->cards as $currcard) {
-            array_push($this->cardDisplayAPI, $currcard);
-        }
-        return $this->cardDisplayAPI;
+            $this->cardDisplayAPI[] = [
+                'graphic' => $currcard->getAsGraphic(),
+                'color' => $currcard->getColor(),
+                'number' => $currcard->getcardNumrep(),];
+    }
+    return json_decode(json_encode($this->cardDisplayAPI, JSON_UNESCAPED_UNICODE), true);
     }
     public function getDisplay()
     {

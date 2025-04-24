@@ -31,9 +31,18 @@ class CardControllerTwig extends AbstractController
         
     foreach ($sessionData as $key => $value) {
         if ($value instanceof DeckOfCards || $value instanceof DeckofCardsJoker) {
-            $sessionData[$key] = $value->getDisplay();
-        } 
+            $sessionData[$key] = $value->getDisplayAPI();
+        }
     }
+
+    // Needed to decode the utf8 characters in the session data
+    if (is_array($sessionData[$key])) {
+            foreach ($sessionData[$key] as &$card) {
+                if (isset($card['graphic'])) {
+                    $card['graphic'] = json_decode('"' . $card['graphic'] . '"');
+                }
+            }
+        }
 
     
         return $this->render('session_view.html.twig', [

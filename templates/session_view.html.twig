@@ -15,11 +15,21 @@
         <tr>
             <td>{{ key }}</td>
             <td>
-                {% if value is iterable %}
-                    <pre>{{ value|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
-                {% else %}
-                    {{ value }}
-                {% endif %}
+                 {% if value is iterable %}
+                                {% for card in value %}
+                                    {% if card.graphic is defined %}
+                                        {% if card.color == "Red" %}
+                                            <span class="card" style="color:red">{{ card.graphic }}</span>
+                                        {% else %}
+                                        <span class="card">{{ card.graphic }}</span>
+                                        {% endif %}
+                                    {% else %}
+                                        <pre>{{ card|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                {{ value }}
+                            {% endif %}
             </td>
         </tr>
 {% endfor %}
