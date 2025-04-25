@@ -50,6 +50,17 @@ class CardControllerTwig extends AbstractController
         ]);
     }
 
+    #[Route("/game_landing", name: "game_landing", methods: ['GET'])]
+    public function gameLanding(): Response
+    {
+        return $this->render('game_landing.html.twig');
+    }
+
+    #[Route("/gamedoc", name: "gamedoc", methods: ['GET'])]
+    public function gameDoc(): Response
+    {
+        return $this->render('gamedoc.html.twig');
+    }
     
     #[Route("/session_clear", name: "session_clear", methods: ['POST'])]
     public function clearSession(SessionInterface $session): Response
