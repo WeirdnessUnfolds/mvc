@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+{% block title %}21-Spelet{% endblock %}
+{% block body %}
+<div class="card-container">
+<h1>Dina kort</h1>
+{% for card, attributes in player_handView %}
+{% if attributes["Color: "] == "Red" %}
+            <div class="card" style="color:red">{{ card }}</div>
+{% else %}
+    <div class="card">{{ card }}</div>
+            {% endif %}
+{% endfor %}
+<h1>Bankens kort</h1>
+{% for card, attributes in cpu_handView %}
+{% if attributes["Color: "] == "Red" %}
+            <div class="card" style="color:red">{{ card }}</div>
+{% else %}
+    <div class="card">{{ card }}</div>
+            {% endif %}
+{% endfor %}
+</div>
+<h1>Dina poäng: {{ points }}    Bankens poäng: {{ cpupoints }}</h1>
+{% if winner != "Ongoing" %}
+    <h2>Vinnaren är: {{ winner }}</h2>
+    <form method="post" action="{{ path('gameview') }}">
+        <button type="submit" name="action" value="reset">Spela igen</button>
+    </form>
+{% else %}
+    <form method="post" action="{{ path('gameview') }}">
+        <button type="submit" name="action" value="draw">Ta upp nästa kort</button>
+        <button type="submit" name="action" value="stop">Stoppa (Avslutar spelet och beräknar vinnare)</button>
+    </form>
+{% endif %}
+{% endblock %}

@@ -2,7 +2,69 @@
 
 {% block title %}Game documentation{% endblock %}
 {% block body %}
-<h1>Här ska det bli innehåll för spelets dokumentation.</h1>
+<h1>Dokumentation</h1>
+    <h2>Flowchart som beskriver spelets gång:</h2>
+    <img id="flowchart" src="{{ asset('img/flowchart.png') }}"
+    alt="Ett flödeschema som beskriver spelet 21s gång."></img>
 
-<h2>Flowchart som beskriver spelets gång:</h2>
+    <h2>Klasser</h2>
+    <p>Utöver de klasser som redan används som hanterar hur
+    kortleken och händer fungerar behövs det också nya som 
+    hanterar själva spelet, men vi börjar med de klasserna som redan finns.</p>
+
+    <h2>card</h2>
+    <p>En representation av ett kort, både grafiskt och 'numerärt', 
+    alltså vilket nummer som kortet har i leken, men också dess faktiska
+    värde.
+
+    <h2>cardHand</h2>
+    <p>En hand med kort. Kan ha flera kort i sig.</p>
+
+    <h2>deckOfCards</h2>
+    <p>Representerar en hel kortlek som kort kan dras ifrån.
+
+    <h2>deckOfCardsJoker</h2>
+    <p>Ärver från deckOfCards och har samma funktioner, bara det att
+    det finns ett extra kort med här, en joker.
+
+    <h2>player</h2>
+    <p>Representerar en spelare. Kan ha en cardHand, och för varje nytt kort
+    som plockas upp så läggs dess värde till.</p>
+
+    <h2>bank</h2>
+    <p>Banken. Plockar upp kort likt spelaren, men gör det automatiskt efter denne
+    tills den har nått över 17, då den kommer att stanna.</p>
+    
+
+    <h2>Pseudokod</h2>
+    <p>Här kommer lite Pseudokod för hur jag har tänkt att spelklassen
+    samt spelarklassen är tänkta att fungera.</p>
+
+    <div class="pseudocode">class game()
+    _constructor():
+        player = New player
+        bank = New bank
+        deck = New deckofCards
+        winner = null
+        
+    getWinner:
+        if player->getPoints > 21:
+        winner = bank
+        elif bank->getPoints > 21: 
+        winner = player 
+    ------------------
+    class player(playDeck : deckOfCards)
+        _constructor():
+            points = 0
+            hand = []
+        
+        drawCard:
+            drawncard = playDeck->drawOne
+            hand->append(drawnCard)
+            points += drawnCard->getcardPoints()
+
+        getPoints:
+            return points
+        
+    </div>
 {% endblock %}

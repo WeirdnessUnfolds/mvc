@@ -81,19 +81,17 @@ class DeckOfCards
 
     public function drawCard($numofCards = null)
     {
-        $heldCards = array();
+        $heldCards = [];
 
-        for($i = 0; $i <= ($numofCards-1); $i++) {
-            array_push($heldCards, array_pop($this->cards));
-
+        for ($i = 0; $i < $numofCards; $i++) {
+            if (!empty($this->cards)) {
+                $heldCards[] = array_pop($this->cards); // Add Card objects to the heldCards array
+            }
         }
-        $this->setDisplay();
 
+        $this->setDisplay(); // Update the cardDisplay to reflect the current state of the deck
 
-        $hand = new cardHand($heldCards);
-
-        return $hand->viewHand();
-
+        return $heldCards;
 
     }
 

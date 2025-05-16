@@ -19,6 +19,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&family=Orbitron&display=swap" rel="stylesheet">
     <img src="{{ asset('img/headertext.png') }}" width="1000" class="headerimg" alt="Texten på härskarringen i tengwar.">
+    </header>
     <body>
     <nav class="navbar">
             <ul>
@@ -28,10 +29,9 @@
                 <li><a href="{{ path('report') }}">Report </a></li>
                 <li><a href="{{ path('quote') }}">Quote of the month</a></li>
                 <li><a href="{{ path('card_landing') }}">Card game</a></li>
-                <li><a href="{{ path('game_landing') }}>Card game: 21</a></li>
+                <li><a href="{{ path('game_landing') }}">Card game: 21</a></li>
             </ul>
         </nav>
-    </header>
        {% for label, messages in app.flashes %}
         <div class="flash-message {{ label }}">
             {% for message in messages %}

@@ -6,11 +6,16 @@ use App\Card\Card;
 use App\Card\CardHand;
 use App\Card\DeckOfCards;
 use App\Card\DeckofCardsJoker;
+use App\Card\Player;
+use App\Card\CpuPlayer;
+use App\Card\Game;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CardControllerTwig extends AbstractController
@@ -53,6 +58,8 @@ class CardControllerTwig extends AbstractController
     #[Route("/game_landing", name: "game_landing", methods: ['GET'])]
     public function gameLanding(): Response
     {
+
+
         return $this->render('game_landing.html.twig');
     }
 
@@ -60,6 +67,92 @@ class CardControllerTwig extends AbstractController
     public function gameDoc(): Response
     {
         return $this->render('gamedoc.html.twig');
+    }
+
+    #[Route("/gameview", name: "gameview", methods: ['GET', 'POST'])]
+    public function gameView(
+        SessionInterface $session,
+        Request $request
+    ): Response
+    {   $deck = $session->get("active_deck");
+        $player = $session->get("player");
+        $game = $session->get("game");
+        $cpu = $session->get("cpu");
+        $isFirstTurn = $session->get("is_first_turn", true);
+        $playerAction = "first_turn";
+
+        if ($request->get('action') == "reset") {
+            $session->clear();
+             $session->getFlashBag()->clear(); // Remove all flash messages
+            $this->addFlash('success', 'Sessionen har blivit rensad, du kan nu spela igen.');
+            return $this->render('game_landing.html.twig');
+        }
+
+        if (!$deck) {
+            $deck = new DeckOfCards();
+            $session->set("active_deck", $deck);
+
+
+        }
+
+        if (!$player) {
+            $player = new Player("Player");
+            $session->set("player", $player);
+
+        } else {
+            $player = $session->get("player");
+            $deck = $session->get("active_deck");
+        }
+
+        if (!$cpu) {
+            $cpu = new CpuPlayer();
+            $session->set("cpu", $cpu);
+
+        } else {
+            $cpu = $session->get("cpu");
+            $deck = $session->get("active_deck");
+
+        }
+
+        if (!$game) {
+            $game = new Game($player, $cpu, $deck);
+            $session->set("game", $game);
+        }
+        else {
+            $game = $session->get("game");
+        }
+
+
+        
+        $session->set("cards_left", $deck->getcardsLeft());
+        $session->set("player", $player);
+        $session->set("cpu", $cpu);
+        
+        $winner = null; // No winner yet
+
+        if ($isFirstTurn) {
+            $playerAction = "first_turn";
+            $session->set("is_first_turn", false);
+        }
+        else {
+            $playerAction = $request->request->get('action');
+
+            
+        }
+        $winner = $game->playGame($playerAction);
+        $session->set("player", $game->player);
+        $session->set("cpu", $game->cpuPlayer);
+        $session->set("active_deck", $game->deck);
+
+        $data = [
+            "player_handView" => $game->player->viewHand(),
+            "points" => $game->player->getPoints(),
+            "cpu_handView" => $game->cpuPlayer->viewHand(),
+            "cpupoints" => $game->cpuPlayer->getPoints(),
+            "winner" => $winner,
+        ];
+
+        return $this->render('game_view.html.twig', $data);
     }
     
     #[Route("/session_clear", name: "session_clear", methods: ['POST'])]
@@ -150,6 +243,7 @@ class CardControllerTwig extends AbstractController
         $data = [
             "handView" => $hand->viewHand(),
             "cardsLeft" => $cardDeck->getcardsLeft(),
+            "points" => $hand->getPoints(),
         ];
 
         $session->set("cards_left", $cardDeck->getcardsLeft());
@@ -167,11 +261,17 @@ class CardControllerTwig extends AbstractController
             throw new \Exception(("Du kan inte ta upp flera kort än det finns i leken!"));
         }
         $cardDeck = $session->get("active_deck");
+        $drawnCards = $cardDeck->drawCard($num);
+        if ($drawnCards == null) {
+            throw new \Exception(("Det finns inga kort kvar i leken!"));
+        }
 
+        $hand = new cardHand($drawnCards);
 
         $data = [
-            "handView" => $cardDeck->drawCard($num),
+            "handView" => $hand->viewHand(),
             "cardsLeft" => $cardDeck->getcardsLeft(),
+            "points" => $hand->getPoints(),
         ];
 
         $session->set("active_deck", $cardDeck);

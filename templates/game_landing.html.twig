@@ -1,8 +1,19 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Game documentation{% endblock %}
+{% block title %}Spela 21{% endblock %}
 {% block body %}
-<h1>Här ska det bli innehåll för spelets landningssida.</h1>
-
+<h1>Kortspelet 21</h1>
+<p>Jag har valt att göra spelet 21, som är ett simpelt kortspel där
+man ska få så nära 21 som möjligt.
+Den som är närmst 21 vinner, men förlorar om den har mer poäng än 21.
+Du kommer spela mot en datorstyrd spelare.
+När spelet startats kommer du ta upp ett kort i taget från leken.
+Sedan är det bankens tur. Efter att du har tagit upp två kort kan du välja att
+stanna, och då får du vänta tills banken stannar.
+Om du inte stannar kommer spelet att fortsätta tills du stannar eller har fått över 21, då du 
+har förlorat.</p>
+<div class="lowerrules">
 <a href="{{ path('gamedoc') }}">Se spelets dokumentation</a>
+<a class="startgame" href="{{ path('gameview')}}">Starta Spelet</a>
+</div>
 {% endblock %}
