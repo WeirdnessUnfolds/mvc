@@ -16,6 +16,10 @@ body {
     text-align: center;
 }
 
+#flowchart {
+    width: 50vh;
+}
+
 main {
     max-width: 100%;
     padding: 0.5em;
@@ -73,6 +77,12 @@ header {
 
 }
 
+.lowerrules {
+    display: grid;
+    justify-items: center;
+
+}
+
 .numbertext {
     text-transform: uppercase;
     background-image: linear-gradient(-225deg,
@@ -114,8 +124,43 @@ li {
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
+    align-items: center;
 }
+
+.startgame {
+    border-color: #802323;
+    border-radius: 5%;
+    height: 5vh;
+    color: white;
+    background: linear-gradient(to bottom, #633, #000);
+}
+
+.startgame:hover {
+    background: linear-gradient(to bottom, #000, #633);
+    color: #802323;
+}
+
+
 
 .options {
     border-top: 1px lime;
+}
+
+
+.pseudocode {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    white-space: pre-wrap;
+    /* Preserve line breaks */
+    overflow-x: auto;
+    /* Horizontal scroll */
+    max-height: 400px;
+    /* Height limit for now */
+    line-height: 1.5;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
