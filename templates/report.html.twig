@@ -53,7 +53,21 @@
 
           <h2 id="kmom03">kmom03</h2>
 
-          <p>Här kommer redovisningstexten för detta kursmoment.</p>
+          <p>Både flödesdiagram och pseudokod är bra verktyg för att få lite struktur på sina tankar innan man sätter igång. 
+          De har nästan lite liknande funktion som en tankekarta skulle ha i andra sammanhang, och gör att man kan fokusera mer på att skriva själva koden utan att fundera ut hur själva programmet ska fungera.
+          Om man dessutom har gjort pseudokod hjälper detta också en stor del på vägen, för även om man kanske inte tillämpar den exakt som man skrev den så gör den att man kan få ett bra hum om hur man ska implementera den funktionen 
+          som man skrev pseudokoden för. Själva uppgiften löste jag genom att utöka några av de klasserna som redan fanns, men gjorde också några nya till som behövdes för spelet.
+          Här hade man kunnat gå till väga på lite olika sätt, men jag bestämde att dela upp spelaren och banken i två separata klasser där banken ärvde från spelaren, och hade sedan en game-klass som hanterade 
+          logiken för vinnarberäkning och stoppa eller dra nya kort. Det hade varit möjligt att ha allt i en enda game-klass, men för läsbarhetens och enkelhetens skull valde jag att ha allting uppdelat.
+          Det blev också enklare för mig att hålla reda på min egna kod på sättet jag valde, så jag är nöjd med min implementation även om jag nog hade kunnat flytta ännu mer av logiken till klasser, då jag var tvungen att ha lite 
+          kod i controllern och hanterat all den logiken i game-klassen också. En annan sak som jag valde att göra som kanske är lite mer av en tolkningsfråga är att alla spelare börjar med två kort och poängen räknas även där,
+          så att banken eller spelaren kan vinna eller förlora redan på det två första korten. 
+          Sammantaget är jag däremot nöjd med hur jag löste implementationen.
+          Även om det var lite strul med att sätta igång ramverket från början så underlättar det väldigt mycket med både felsökning och
+          generell modularitet när man bestämmer sig för att lägga till nya funktioner. Det känns som att ett ramverk är rätt väg att gå om man 
+          gör en applikation som ska ha flera olika funktioner på samma gång och vill ha ett enkelt och standardiserat sätt att hantera allt med objektorienterad PHP.
+          Mitt TIL för det här momentet är: Ramverkets inbyggda felsöknings och debug-funktioner är väldigt kraftfulla och man kan få mycket info, använd dem.
+          </p>
 
           <h2 id="kmom04">kmom04</h2>
 
