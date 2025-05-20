@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Exception;
 
 class JsonControllerTwig extends AbstractController
 {
@@ -28,11 +29,8 @@ class JsonControllerTwig extends AbstractController
         if (!$deck) {
             $deck = new DeckOfCards();
             $session->set("active_deck", $deck);
-        } else {
-            $deck = $session->get("active_deck");
-
-        }
-
+        } 
+        $deck = $session->get("active_deck");
         $data = [
             "deckView" => $deck->getDisplay(),
 
@@ -56,7 +54,7 @@ class JsonControllerTwig extends AbstractController
         $cpu = $session->get("cpu");
         $winner = $session->get("winner");
         if (!$game) {
-            throw new \Exception(("Det finns inget aktivt spel!"));
+            throw new Exception(("Det finns inget aktivt spel!"));
         }
 
 
@@ -103,7 +101,7 @@ class JsonControllerTwig extends AbstractController
     ): Response {
         $cardDeck = $session->get("active_deck");
         if (count($cardDeck->getCards()) < 1) {
-            throw new \Exception(("Du kan inte ta upp flera kort än det finns i leken!"));
+            throw new Exception(("Du kan inte ta upp flera kort än det finns i leken!"));
         }
 
         $data = [
@@ -130,7 +128,7 @@ class JsonControllerTwig extends AbstractController
     ): Response {
         $cardDeck = $session->get("active_deck");
         if ($num > 52 or $num > count($cardDeck->getCards())) {
-            throw new \Exception(("Du kan inte ta upp flera kort än det finns i leken!"));
+            throw new Exception(("Du kan inte ta upp flera kort än det finns i leken!"));
         }
 
         $data = [
