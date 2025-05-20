@@ -1,15 +1,15 @@
 <?php
 
 namespace App\Card;
+
 use App\Controller;
 use App\Card\Card;
 use App\Card\Player;
 use App\Card\CpuPlayer;
 use App\Card\DeckOfCards;
 
-
-class Game {
-
+class Game
+{
     /**
      * A class that represents a game of cards.
      * The game has a player, a CPU player, and a deck of cards.
@@ -45,7 +45,7 @@ class Game {
         $playerPoints = $this->player->getPoints();
         $cpuPoints = $this->cpuPlayer->getPoints();
 
-         // Both bust
+        // Both bust
         if ($playerPoints > 21 && $cpuPoints > 21) {
             return "Oavgjort";
         }
@@ -66,7 +66,7 @@ class Game {
         }
         // Tie
         return "Oavgjort";
-        
+
     }
 
     public function playGame($playerAction)
@@ -79,7 +79,7 @@ class Game {
             }
             if ($this->player->getPoints() > 21 || $this->cpuPlayer->getPoints() > 21) {
                 return $this->getWinner();
-            } 
+            }
             return "Ongoing";
         }
 
@@ -122,10 +122,10 @@ class Game {
 
         return "Ongoing";
     }
-        
 
 
-        
+
+
 
 
 }

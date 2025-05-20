@@ -32,25 +32,25 @@ class Card
     public function getCardPoints(): int
     {
         if ($this->cardvalue == 53) { // The number 53 represents the joker.
-        return 0;
+            return 0;
         }
 
         $rank = $this->cardvalue % 13; // Determine the rank within the suit (0-12)
 
         if ($rank == 0) { // Ace (last card in the suit)
             return 14;
-        } elseif ($rank >= 1 && $rank <= 9) { 
+        } elseif ($rank >= 1 && $rank <= 9) {
             return $rank + 1; // Number cards (2-10)
-        } elseif ($rank == 10) { 
+        } elseif ($rank == 10) {
             return 11; // Jack
-        } elseif ($rank == 11) { 
+        } elseif ($rank == 11) {
             return 12; // Queen
-        } elseif ($rank == 12) { 
+        } elseif ($rank == 12) {
             return 13; // King
         }
 
         return 0; // Fallback
-        }
+    }
 
     public function getColor()
     {
@@ -91,19 +91,19 @@ class Card
         if ($this->cardvalue == 53) {  // The number 53 represents the joker.
             $this->utf8_card = mb_ord("🂿", "UTF-8");
 
-        }  else {
-        $rank = $this->cardvalue % 13;
-        for ($i = 1; $i <= $rank; $i++) {
+        } else {
+            $rank = $this->cardvalue % 13;
+            for ($i = 1; $i <= $rank; $i++) {
 
-            // Skip the Unicode values for the Knights
-            if ($this->utf8_card == mb_ord("🂫", "UTF-8") || // Knight of Spades
-                $this->utf8_card == mb_ord("🂻", "UTF-8") || // Knight of Hearts
-                $this->utf8_card == mb_ord("🃋", "UTF-8") || // Knight of Diamonds
-                $this->utf8_card == mb_ord("🃛", "UTF-8")) { // Knight of Clubs
+                // Skip the Unicode values for the Knights
+                if ($this->utf8_card == mb_ord("🂫", "UTF-8") || // Knight of Spades
+                    $this->utf8_card == mb_ord("🂻", "UTF-8") || // Knight of Hearts
+                    $this->utf8_card == mb_ord("🃋", "UTF-8") || // Knight of Diamonds
+                    $this->utf8_card == mb_ord("🃛", "UTF-8")) { // Knight of Clubs
+                    ++$this->utf8_card;
+                }
                 ++$this->utf8_card;
             }
-            ++$this->utf8_card;
-        }
         }
 
         return mb_chr($this->utf8_card, "UTF-8");

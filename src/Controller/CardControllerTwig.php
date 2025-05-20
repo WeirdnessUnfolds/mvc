@@ -33,15 +33,15 @@ class CardControllerTwig extends AbstractController
 
         $sessionData = $session->all();
 
-        
-    foreach ($sessionData as $key => $value) {
-        if ($value instanceof DeckOfCards || $value instanceof DeckofCardsJoker) {
-            $sessionData[$key] = $value->getDisplayAPI();
-        }
-    }
 
-    // Needed to decode the utf8 characters in the session data
-    if (is_array($sessionData[$key])) {
+        foreach ($sessionData as $key => $value) {
+            if ($value instanceof DeckOfCards || $value instanceof DeckofCardsJoker) {
+                $sessionData[$key] = $value->getDisplayAPI();
+            }
+        }
+
+        // Needed to decode the utf8 characters in the session data
+        if (is_array($sessionData[$key])) {
             foreach ($sessionData[$key] as &$card) {
                 if (isset($card['graphic'])) {
                     $card['graphic'] = json_decode('"' . $card['graphic'] . '"');
@@ -49,7 +49,7 @@ class CardControllerTwig extends AbstractController
             }
         }
 
-    
+
         return $this->render('session_view.html.twig', [
             'sessionData' => $sessionData,
         ]);
@@ -73,8 +73,8 @@ class CardControllerTwig extends AbstractController
     public function gameView(
         SessionInterface $session,
         Request $request
-    ): Response
-    {   $deck = $session->get("active_deck");
+    ): Response {
+        $deck = $session->get("active_deck");
         $player = $session->get("player");
         $game = $session->get("game");
         $cpu = $session->get("cpu");
@@ -83,7 +83,7 @@ class CardControllerTwig extends AbstractController
 
         if ($request->get('action') == "reset") {
             $session->clear();
-             $session->getFlashBag()->clear(); // Remove all flash messages
+            $session->getFlashBag()->clear(); // Remove all flash messages
             $this->addFlash('success', 'Sessionen har blivit rensad, du kan nu spela igen.');
             return $this->render('game_landing.html.twig');
         }
@@ -117,32 +117,32 @@ class CardControllerTwig extends AbstractController
         if (!$game) {
             $game = new Game($player, $cpu, $deck);
             $session->set("game", $game);
-        }
-        else {
+        } else {
             $game = $session->get("game");
         }
 
 
-        
+
         $session->set("cards_left", $deck->getcardsLeft());
         $session->set("player", $player);
         $session->set("cpu", $cpu);
-        
+
         $winner = null; // No winner yet
 
         if ($isFirstTurn) {
             $playerAction = "first_turn";
             $session->set("is_first_turn", false);
-        }
-        else {
+        } else {
             $playerAction = $request->request->get('action');
 
-            
+
         }
         $winner = $game->playGame($playerAction);
         $session->set("player", $game->player);
         $session->set("cpu", $game->cpuPlayer);
         $session->set("active_deck", $game->deck);
+        $session->set("game", $game);
+        $session->set("winner", $winner);
 
         $data = [
             "player_handView" => $game->player->viewHand(),
@@ -154,7 +154,7 @@ class CardControllerTwig extends AbstractController
 
         return $this->render('game_view.html.twig', $data);
     }
-    
+
     #[Route("/session_clear", name: "session_clear", methods: ['POST'])]
     public function clearSession(SessionInterface $session): Response
     {
@@ -170,7 +170,7 @@ class CardControllerTwig extends AbstractController
         SessionInterface $session
     ): Response {
         // If the deck exists already..
-        $deck = $session->get("active_deck"); 
+        $deck = $session->get("active_deck");
 
         if (!$deck) {
             $deck = new DeckOfCards();
@@ -193,13 +193,13 @@ class CardControllerTwig extends AbstractController
         SessionInterface $session
     ): Response {
 
-        $deck = $session->get("active_deck"); 
+        $deck = $session->get("active_deck");
         if (!$deck) {
             $deck = new DeckOfCardsJoker();
             $session->set("active_deck", $deck);
             $session->set("cards_left", $deck->getcardsLeft());
         } else {
-        $deck = $session->get("active_deck");
+            $deck = $session->get("active_deck");
         }
         $data = [
             "deckView" => $deck->getDisplay(),
@@ -279,4 +279,3 @@ class CardControllerTwig extends AbstractController
         return $this->render('card_draw.html.twig', $data);
     }
 }
-

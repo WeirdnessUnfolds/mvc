@@ -39,8 +39,8 @@ class DeckOfCards
                 'graphic' => $currcard->getAsGraphic(),
                 'color' => $currcard->getColor(),
                 'number' => $currcard->getcardNumrep(),];
-    }
-    return json_decode(json_encode($this->cardDisplayAPI, JSON_UNESCAPED_UNICODE), true);
+        }
+        return json_decode(json_encode($this->cardDisplayAPI, JSON_UNESCAPED_UNICODE), true);
     }
     public function getDisplay()
     {
@@ -51,12 +51,13 @@ class DeckOfCards
     }
 
     public function setDisplay()
-    {   $this->cardDisplay = array(); 
+    {
+        $this->cardDisplay = array();
         foreach ($this->cards as $currcard) {
             $this->cardDisplay[$currcard->getAsGraphic()]["Color: "] = $currcard->getColor();
         }
-    } 
- 
+    }
+
     public function shuffleCards()
     {
 
@@ -67,7 +68,7 @@ class DeckOfCards
 
     public function sortCards()
     {
-        
+
         usort($this->cards, function ($a, $b) {
             return $a->getcardNumrep() <=> $b->getcardNumrep();
         });

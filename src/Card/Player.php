@@ -42,7 +42,7 @@ class Player
         return $this->hand->getPoints();
     }
 
-    
+
 
     public function viewHand(): array
     {

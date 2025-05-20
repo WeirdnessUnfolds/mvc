@@ -23,14 +23,14 @@ class JsonControllerTwig extends AbstractController
     ): Response {
 
         // If the deck exists already..
-        $deck = $session->get("active_deck"); 
+        $deck = $session->get("active_deck");
 
         if (!$deck) {
             $deck = new DeckOfCards();
             $session->set("active_deck", $deck);
         } else {
             $deck = $session->get("active_deck");
-            
+
         }
 
         $data = [
@@ -45,6 +45,33 @@ class JsonControllerTwig extends AbstractController
         return $response;
 
 
+    }
+
+    #[Route("/api/game", name:"game_stats", methods:['GET'])]
+    public function gameStats(
+        SessionInterface $session
+    ): Response {
+        $game = $session->get("active_deck");
+        $player = $session->get("player");
+        $cpu = $session->get("cpu");
+        $winner = $session->get("winner");
+        if (!$game) {
+            throw new \Exception(("Det finns inget aktivt spel!"));
+        }
+
+
+        $data = [
+            "playerpoints" => $player->getPoints(),
+            "cpupoints" => $cpu->getPoints(),
+            "winner" => $winner,
+
+        ];
+
+        $response = new JsonResponse($data);
+        $response->setEncodingOptions(
+            $response->getEncodingOptions() | JSON_UNESCAPED_UNICODE
+        );
+        return $response;
     }
 
     #[Route("api/deck/shuffle", name:"api_shuffle", methods:['POST'])]
@@ -122,6 +149,7 @@ class JsonControllerTwig extends AbstractController
 
 
     }
+
 
 
 

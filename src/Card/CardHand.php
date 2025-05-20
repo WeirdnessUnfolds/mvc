@@ -38,14 +38,14 @@ class CardHand
     }
 
     public function getPoints()
-{
-    $totalpoints = 0;
-    $cardsInhand = $this->cardsInhand;
-    foreach ($this->cardsInhand as $currcard) {
-        dump($totalpoints);
-        $totalpoints += $currcard->getCardPoints();
+    {
+        $totalpoints = 0;
+        $cardsInhand = $this->cardsInhand;
+        foreach ($this->cardsInhand as $currcard) {
+            dump($totalpoints);
+            $totalpoints += $currcard->getCardPoints();
+        }
+        return $totalpoints;
     }
-    return $totalpoints;
-}
 
 }

@@ -6,7 +6,6 @@ use App\Controller;
 use App\Card\Player;
 use App\Card\CardHand;
 
-
 class CpuPlayer extends Player
 {
     public function __construct()
@@ -18,5 +17,5 @@ class CpuPlayer extends Player
     {
         return $this->getPoints() >= 17 ? "stop" : "draw";
     }
- 
+
 }
