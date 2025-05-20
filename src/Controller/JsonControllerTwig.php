@@ -102,7 +102,7 @@ class JsonControllerTwig extends AbstractController
         SessionInterface $session
     ): Response {
         $cardDeck = $session->get("active_deck");
-        if (count($cardDeck->getCards()) < 0) {
+        if (count($cardDeck->getCards()) < 1) {
             throw new \Exception(("Du kan inte ta upp flera kort än det finns i leken!"));
         }
 
