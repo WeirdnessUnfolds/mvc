@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Card\Card;
 use App\Card\CardHand;
 use App\Card\DeckOfCards;
-use App\Card\DeckofCardsJoker;
+use App\Card\DeckOfCardsJoker;
 use App\Card\Player;
 use App\Card\CpuPlayer;
 use App\Card\Game;
@@ -35,16 +35,27 @@ class CardControllerTwig extends AbstractController
 
 
         foreach ($sessionData as $key => $value) {
-            if ($value instanceof DeckOfCards || $value instanceof DeckofCardsJoker) {
+            if ($value instanceof DeckOfCards) {
                 $sessionData[$key] = $value->getDisplayAPI();
+            } elseif ($value instanceof Player) {
+                $sessionData[$key] = [
+                    'hand' => $value->getHand(),
+                    'points' => $value->getPoints(),
+                    'name' => $value->getName(),
+                ];
+            } elseif ($value instanceof Game) {
+                $sessionData[$key] = [
+                    'player' => $value->player->getHand()->viewHand(),
+                    'cpuPlayer' => $value->cpuPlayer->getHand()->viewHand(),
+                    'deck' => $value->deck->getDisplayAPI(),
+                ];
             }
-        }
-
-        // Needed to decode the utf8 characters in the session data
-        if (is_array($sessionData[$key])) {
-            foreach ($sessionData[$key] as &$card) {
-                if (isset($card['graphic'])) {
-                    $card['graphic'] = json_decode('"' . $card['graphic'] . '"');
+            // Needed to decode the utf8 characters in the session data
+            if (is_array($sessionData[$key])) {
+                foreach ($sessionData[$key] as &$card) {
+                    if (is_array($card) && isset($card['graphic'])) {
+                        $card['graphic'] = json_decode('"' . $card['graphic'] . '"');
+                    }
                 }
             }
         }
@@ -83,7 +94,10 @@ class CardControllerTwig extends AbstractController
 
         if ($request->get('action') == "reset") {
             $session->clear();
-            $session->getFlashBag()->clear(); // Remove all flash messages
+            // Session needs to be an instance of a Symfony session.
+            if ($session instanceof \Symfony\Component\HttpFoundation\Session\Session) {
+                $session->getFlashBag()->clear();
+                }
             $this->addFlash('success', 'Sessionen har blivit rensad, du kan nu spela igen.');
             return $this->render('game_landing.html.twig');
         }
