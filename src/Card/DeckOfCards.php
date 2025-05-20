@@ -86,8 +86,8 @@ class DeckOfCards
     public function sortCards(): void
     {
 
-        usort($this->cards, function ($a, $b) {
-            return $a->getcardNumrep() <=> $b->getcardNumrep();
+        usort($this->cards, function ($avar, $bvar) {
+            return $avar->getcardNumrep() <=> $bvar->getcardNumrep();
         });
         $this->setDisplay();
     }

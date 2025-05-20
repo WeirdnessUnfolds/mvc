@@ -76,63 +76,74 @@ class Game
     * @param string $playerAction The action taken by the player.
     * @return string $winner - The winner of the game.
     */
-    public function playGame(string $playerAction) : string
+    public function playGame(string $playerAction): string
     {
-        // First turn: deal two cards each
         if ($playerAction === "first_turn") {
-            for ($i = 0; $i < 2; $i++) {
-                $this->player->drawCard($this->deck->drawCard(1));
-                $this->cpuPlayer->drawCard($this->deck->drawCard(1));
-            }
-            if ($this->player->getPoints() > 21 || $this->cpuPlayer->getPoints() > 21) {
-                return $this->getWinner();
-            }
-            return "Ongoing";
+            return $this->handleFirstTurn();
         }
 
-        // Player draws
         if ($playerAction === "draw" && !$this->playerstopped) {
-            $this->player->drawCard($this->deck->drawCard(1));
-            if ($this->player->getPoints() > 21) {
-                $this->playerstopped = true;
-            }
+            $this->handlePlayerDraw();
         }
 
-        // Player stops
         if ($playerAction === "stop") {
             $this->playerstopped = true;
         }
 
-        // CPU's turn: only act if player has stopped and CPU hasn't
         if ($this->playerstopped && !$this->cpustopped) {
-            while ($this->cpuPlayer->makeMove() === "draw") {
-                $this->cpuPlayer->drawCard($this->deck->drawCard(1));
-                if ($this->cpuPlayer->getPoints() > 21) {
-                    $this->cpustopped = true;
-                    break;
-                }
-            }
-            if ($this->cpuPlayer->makeMove() === "stop") {
-                $this->cpustopped = true;
-            }
+            $this->handleCpuTurn();
         }
-     
 
-        // If both have stopped, or if either busts, calculate winner
-        if (
-            ($this->playerstopped && $this->cpustopped) ||
-            $this->player->getPoints() > 21 ||
-            $this->cpuPlayer->getPoints() > 21
-        ) {
+        if ($this->isGameOver()) {
             return $this->getWinner();
         }
 
         return "Ongoing";
     }
 
+    private function handleFirstTurn(): string
+    {
+        $this->dealFirstTurn();
+        if ($this->player->getPoints() > 21 || $this->cpuPlayer->getPoints() > 21) {
+            return $this->getWinner();
+        }
+        return "Ongoing";
+    }
 
+    private function isGameOver(): bool
+    {
+        return ($this->playerstopped && $this->cpustopped)
+            || $this->player->getPoints() > 21
+            || $this->cpuPlayer->getPoints() > 21;
+    }
 
+    private function dealFirstTurn(): void
+    {
+        for ($i = 0; $i < 2; $i++) {
+            $this->player->drawCard($this->deck->drawCard(1));
+            $this->cpuPlayer->drawCard($this->deck->drawCard(1));
+        }
+    }
 
+    private function handlePlayerDraw(): void
+    {
+        $this->player->drawCard($this->deck->drawCard(1));
+        if ($this->player->getPoints() > 21) {
+            $this->playerstopped = true;
+        }
+    }
 
-
+    private function handleCpuTurn(): void
+    {
+        while ($this->cpuPlayer->makeMove() === "draw") {
+            $this->cpuPlayer->drawCard($this->deck->drawCard(1));
+            if ($this->cpuPlayer->getPoints() > 21) {
+                $this->cpustopped = true;
+                break;
+            }
+        }
+        if ($this->cpuPlayer->makeMove() === "stop") {
+            $this->cpustopped = true;
+        }
+    }
 }

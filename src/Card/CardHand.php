@@ -45,7 +45,6 @@ class CardHand
     public function getPoints(): int
     {
         $totalpoints = 0;
-        $cardsInhand = $this->cardsInhand;
         foreach ($this->cardsInhand as $currcard) {
             dump($totalpoints);
             $totalpoints += $currcard->getCardPoints();

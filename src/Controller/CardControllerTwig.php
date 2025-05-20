@@ -9,6 +9,7 @@ use App\Card\DeckOfCardsJoker;
 use App\Card\Player;
 use App\Card\CpuPlayer;
 use App\Card\Game;
+use Exception;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -113,27 +114,23 @@ class CardControllerTwig extends AbstractController
             $player = new Player("Player");
             $session->set("player", $player);
 
-        } else {
-            $player = $session->get("player");
-            $deck = $session->get("active_deck");
         }
+        $player = $session->get("player");
+        
 
         if (!$cpu) {
             $cpu = new CpuPlayer();
             $session->set("cpu", $cpu);
 
-        } else {
-            $cpu = $session->get("cpu");
-            $deck = $session->get("active_deck");
-
         }
+        $deck = $session->get("active_deck");
+        $cpu = $session->get("cpu");
 
         if (!$game) {
             $game = new Game($player, $cpu, $deck);
             $session->set("game", $game);
-        } else {
-            $game = $session->get("game");
-        }
+        } 
+        $game = $session->get("game");
 
 
 
@@ -143,13 +140,12 @@ class CardControllerTwig extends AbstractController
 
         $winner = null; // No winner yet
 
+       
+
+        $playerAction = $request->request->get('action', 'first_turn');
         if ($isFirstTurn) {
             $playerAction = "first_turn";
             $session->set("is_first_turn", false);
-        } else {
-            $playerAction = $request->request->get('action');
-
-
         }
         $winner = $game->playGame($playerAction);
         $session->set("player", $game->player);
@@ -190,10 +186,10 @@ class CardControllerTwig extends AbstractController
             $deck = new DeckOfCards();
             $session->set("active_deck", $deck);
             $session->set("cards_left", $deck->getcardsLeft());
-        } else {
-            $deck = $session->get("active_deck");
-            $deck->sortCards();
         }
+        $deck = $session->get("active_deck");
+        $deck->sortCards();
+
 
         $data = [
             "deckView" => $deck->getDisplay(),
@@ -212,9 +208,8 @@ class CardControllerTwig extends AbstractController
             $deck = new DeckOfCardsJoker();
             $session->set("active_deck", $deck);
             $session->set("cards_left", $deck->getcardsLeft());
-        } else {
-            $deck = $session->get("active_deck");
         }
+        $deck = $session->get("active_deck");
         $data = [
             "deckView" => $deck->getDisplay(),
 
@@ -272,12 +267,12 @@ class CardControllerTwig extends AbstractController
     ): Response {
         $activedeck = $session->get("active_deck");
         if ($num > 52 or $num > count($activedeck->getCards())) {
-            throw new \Exception(("Du kan inte ta upp flera kort än det finns i leken!"));
+            throw new Exception(("Du kan inte ta upp flera kort än det finns i leken!"));
         }
         $cardDeck = $session->get("active_deck");
         $drawnCards = $cardDeck->drawCard($num);
         if ($drawnCards == null) {
-            throw new \Exception(("Det finns inga kort kvar i leken!"));
+            throw new Exception(("Det finns inga kort kvar i leken!"));
         }
 
         $hand = new cardHand($drawnCards);

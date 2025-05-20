@@ -9,31 +9,31 @@ A class that represents a card.
 */
 
 class Card
-{   /* Represents the color and value of the card, random
+{
+    /* Represents the color and value of the card, random
     number between 1 and 53. */
-    protected int $cardvalue;
-    protected ?string $cardgraphic;
-    private ?int $utf8_card;
-    public function __construct( ?int $enteredvalue = null)
-    {
-        if ($enteredvalue == null) { // If no value between 1 and 53 is entered, a random card is shown.
-            $this->cardvalue = random_int(1, 53);
-        } else {
-            $this->cardvalue = $enteredvalue;
-        }
-        $this->cardgraphic = null;
-    }
+    protected int $cardValue;
+    protected ?string $cardGraphic;
+    private ?int $utf8Card;
 
+    public function __construct(?int $enteredValue = null)
+    {
+        if ($enteredValue == null) { // If no value between 1 and 53 is entered, a random card is shown.
+            $this->cardValue = random_int(1, 53);
+        } 
+        $this->cardValue = $enteredValue;
+        $this->cardGraphic = null;
+    }
 
     /**
      * Returns the card value, the numeric representation of its place
-     in the deck.
+     * in the deck.
      *
      * @return int The card value.
      */
-    public function getcardNumrep(): int
+    public function getCardNumRep(): int
     {
-        return $this->cardvalue;
+        return $this->cardValue;
     }
 
     /**
@@ -43,11 +43,11 @@ class Card
      */
     public function getCardPoints(): int
     {
-        if ($this->cardvalue == 53) { // The number 53 represents the joker.
+        if ($this->cardValue == 53) { // The number 53 represents the joker.
             return 0;
         }
 
-        $rank = $this->cardvalue % 13; // Determine the rank within the suit (0-12)
+        $rank = $this->cardValue % 13; // Determine the rank within the suit (0-12)
 
         if ($rank == 0) { // Ace (last card in the suit)
             return 14;
@@ -64,31 +64,24 @@ class Card
         return 0; // Fallback
     }
 
-
     /**
     * Returns the color of the card based on the value in the deck,
-    provided that it's sorted.
+    * provided that it's sorted.
     */
     public function getColor(): string
     {
-
         $color = "";
-        if ($this->cardvalue <= 13) {
+        if ($this->cardValue <= 13) {
             $color = "Black";
-        } elseif ($this->cardvalue <= 26) {
+        } elseif ($this->cardValue <= 26) {
             $color = "Red";
-        } elseif ($this->cardvalue <= 39) {
+        } elseif ($this->cardValue <= 39) {
             $color = "Red";
-
-        } elseif ($this->cardvalue <= 52) {
+        } elseif ($this->cardValue <= 52) {
             $color = "Black";
-
         }
 
         return $color;
-
-
-
     }
 
     /**
@@ -98,39 +91,44 @@ class Card
      */
     public function getAsGraphic(): string
     {
-        if ($this->cardvalue <= 13) {
-            $this->utf8_card  = mb_ord("🂡", "UTF-8");
-        } elseif ($this->cardvalue <= 26) {
-            $this->utf8_card = mb_ord("🂱", "UTF-8");
-        } elseif ($this->cardvalue <= 39) {
-            $this->utf8_card  = mb_ord("🃁", "UTF-8");
-
-        } elseif ($this->cardvalue <= 52) {
-            $this->utf8_card  = mb_ord("🃑", "UTF-8");
-
+        // Handle Joker
+        if ($this->cardValue === 53) {
+            return "🂿";
         }
 
-        if ($this->cardvalue == 53) {  // The number 53 represents the joker.
-            $this->utf8_card = mb_ord("🂿", "UTF-8");
+        // Determine suit base
+        $suitBases = [
+            1 => mb_ord("🂡", "UTF-8"),   // Spades
+            14 => mb_ord("🂱", "UTF-8"),  // Hearts
+            27 => mb_ord("🃁", "UTF-8"),  // Diamonds
+            40 => mb_ord("🃑", "UTF-8"),  // Clubs
+        ];
 
-        } else {
-            $rank = $this->cardvalue % 13;
-            for ($i = 1; $i <= $rank; $i++) {
-
-                // Skip the Unicode values for the Knights
-                if ($this->utf8_card == mb_ord("🂫", "UTF-8") || // Knight of Spades
-                    $this->utf8_card == mb_ord("🂻", "UTF-8") || // Knight of Hearts
-                    $this->utf8_card == mb_ord("🃋", "UTF-8") || // Knight of Diamonds
-                    $this->utf8_card == mb_ord("🃛", "UTF-8")) { // Knight of Clubs
-                    ++$this->utf8_card;
-                }
-                ++$this->utf8_card;
+        // Find the suit base
+        foreach (array_reverse(array_keys($suitBases)) as $start) {
+            if ($this->cardValue >= $start) {
+            $this->utf8Card = $suitBases[$start];
+                break;
             }
         }
 
-        return mb_chr($this->utf8_card, "UTF-8");
-    }
+        $rank = $this->cardValue % 13;
+        $knights = [
+            mb_ord("🂫", "UTF-8"), // Knight of Spades
+            mb_ord("🂻", "UTF-8"), // Knight of Hearts
+            mb_ord("🃋", "UTF-8"), // Knight of Diamonds
+            mb_ord("🃛", "UTF-8"), // Knight of Clubs
+        ];
 
+        for ($i = 1; $i <= $rank; $i++) {
+            if (in_array($this->utf8Card, $knights, true)) {
+                ++$this->utf8Card;
+            }
+            ++$this->utf8Card;
+        }   
+
+        return mb_chr($this->utf8Card, "UTF-8");
+    }
     /**
     * Serializes the card data to a string.
     *
@@ -139,9 +137,9 @@ class Card
     public function serialize(): string
     {
         return serialize([
-            'cardvalue' => $this->cardvalue,
-            'cardgraphic' => $this->cardgraphic,
-            'utf8_card' => $this->utf8_card,
+            'cardValue' => $this->cardValue,
+            'cardGraphic' => $this->cardGraphic,
+            'utf8Card' => $this->utf8Card,
         ]);
     }
 
@@ -150,13 +148,11 @@ class Card
      *
      * @param int|string $data The serialized card data.
      */
-    public function unserialize( int|string $data): void
+    public function unserialize(int|string $data): void
     {
         $unserializedData = unserialize($data);
-        $this->cardvalue = $unserializedData['cardvalue'];
-        $this->cardgraphic = $unserializedData['cardgraphic'];
-        $this->utf8_card = $unserializedData['utf8_card'];
+        $this->cardValue = $unserializedData['cardValue'];
+        $this->cardGraphic = $unserializedData['cardGraphic'];
+        $this->utf8Card = $unserializedData['utf8Card'];
     }
-
-
 }
