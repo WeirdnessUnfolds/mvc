@@ -92,8 +92,13 @@
         },
         "csfix": "tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src",
         "csfix:dry": "tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src --dry-run -v",
-    
-        
+        "phpstan": "tools/phpstan/vendor/bin/phpstan analyse src templates --level 6 || true",
+        "phpmd": "tools/phpmd/vendor/bin/phpmd src,templates text cleancode,codesize,controversial,naming,unusedcode  || true",
+        "lint":
+        [
+            "@phpstan",
+            "@phpmd"
+        ],
         "post-install-cmd": [
             "@auto-scripts"
         ],
