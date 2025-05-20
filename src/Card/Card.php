@@ -11,10 +11,10 @@ A class that represents a card.
 class Card
 {   /* Represents the color and value of the card, random
     number between 1 and 53. */
-    protected $cardvalue;
-    protected $cardgraphic;
-    private $utf8_card;
-    public function __construct($enteredvalue = null)
+    protected int $cardvalue;
+    protected ?string $cardgraphic;
+    private ?int $utf8_card;
+    public function __construct( ?int $enteredvalue = null)
     {
         if ($enteredvalue == null) { // If no value between 1 and 53 is entered, a random card is shown.
             $this->cardvalue = random_int(1, 53);
@@ -24,11 +24,23 @@ class Card
         $this->cardgraphic = null;
     }
 
+
+    /**
+     * Returns the card value, the numeric representation of its place
+     in the deck.
+     *
+     * @return int The card value.
+     */
     public function getcardNumrep(): int
     {
         return $this->cardvalue;
     }
 
+    /**
+     * Returns the points that the card is worth.
+     *
+     * @return int The card worth.
+     */
     public function getCardPoints(): int
     {
         if ($this->cardvalue == 53) { // The number 53 represents the joker.
@@ -52,18 +64,23 @@ class Card
         return 0; // Fallback
     }
 
-    public function getColor()
+
+    /**
+    * Returns the color of the card based on the value in the deck,
+    provided that it's sorted.
+    */
+    public function getColor(): string
     {
 
         $color = "";
         if ($this->cardvalue <= 13) {
             $color = "Black";
-        } elseif ($this->cardvalue > 13 and $this->cardvalue <= 26) {
+        } elseif ($this->cardvalue <= 26) {
             $color = "Red";
-        } elseif ($this->cardvalue > 26 and $this->cardvalue <= 39) {
+        } elseif ($this->cardvalue <= 39) {
             $color = "Red";
 
-        } elseif ($this->cardvalue > 39 and $this->cardvalue <= 52) {
+        } elseif ($this->cardvalue <= 52) {
             $color = "Black";
 
         }
@@ -74,16 +91,21 @@ class Card
 
     }
 
+    /**
+     * Returns the card graphic as a string.
+     *
+     * @return string The card graphic.
+     */
     public function getAsGraphic(): string
     {
         if ($this->cardvalue <= 13) {
             $this->utf8_card  = mb_ord("🂡", "UTF-8");
-        } elseif ($this->cardvalue > 13 and $this->cardvalue <= 26) {
+        } elseif ($this->cardvalue <= 26) {
             $this->utf8_card = mb_ord("🂱", "UTF-8");
-        } elseif ($this->cardvalue > 26 and $this->cardvalue <= 39) {
+        } elseif ($this->cardvalue <= 39) {
             $this->utf8_card  = mb_ord("🃁", "UTF-8");
 
-        } elseif ($this->cardvalue > 39 and $this->cardvalue <= 52) {
+        } elseif ($this->cardvalue <= 52) {
             $this->utf8_card  = mb_ord("🃑", "UTF-8");
 
         }
@@ -109,6 +131,11 @@ class Card
         return mb_chr($this->utf8_card, "UTF-8");
     }
 
+    /**
+    * Serializes the card data to a string.
+    *
+    * @return string The serialized card data.
+    */
     public function serialize(): string
     {
         return serialize([
@@ -118,7 +145,12 @@ class Card
         ]);
     }
 
-    public function unserialize($data): void
+    /**
+     * Unserializes the card data from a string.
+     *
+     * @param int|string $data The serialized card data.
+     */
+    public function unserialize( int|string $data): void
     {
         $unserializedData = unserialize($data);
         $this->cardvalue = $unserializedData['cardvalue'];

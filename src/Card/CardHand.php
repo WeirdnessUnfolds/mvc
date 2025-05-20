@@ -14,16 +14,21 @@ A class that represents a hand of cards that draws cards from a cardHand.
 
 class CardHand
 {   /* Displays the cards that have been drawn from a deck in a hand. */
-    private $cardsInhand;
-    private $graphicarray = array();
+    /** @var Card[] */
+    private array $cardsInhand;
+    /** @var array<string, array<string, string>> */
+    private array $graphicarray = array();
 
-
-    public function __construct($drawnCards)
+    /**
+    * @param Card[] $drawnCards
+    */
+    public function __construct(array $drawnCards)
     {
 
         $this->cardsInhand = $drawnCards;
     }
 
+    /** @return array<string, array<string, string>> */
     public function viewHand(): array
     {
         foreach ($this->cardsInhand as $currcard) {
@@ -32,12 +37,12 @@ class CardHand
         return $this->graphicarray;
     }
 
-    public function addCard($card)
+    public function addCard(Card $card): void
     {
         $this->cardsInhand[] = $card;
     }
 
-    public function getPoints()
+    public function getPoints(): int
     {
         $totalpoints = 0;
         $cardsInhand = $this->cardsInhand;

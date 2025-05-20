@@ -11,9 +11,12 @@ A class that represents a card.
 class DeckOfCards
 {   /* Represents the color and value of the card, random
     number between 1 and 53. */
-    protected $cards;
-    protected $cardDisplay = array();
-    protected $cardDisplayAPI = array(); // For the API display
+    /** @var Card[] */
+    protected array $cards;
+    /** @var array<string, array<string, string>> */
+    protected array $cardDisplay = array();
+    /** @var array<int, array<string, string|int>> */
+    protected array $cardDisplayAPI = array(); // For the API display
 
     public function __construct()
     {
@@ -30,8 +33,11 @@ class DeckOfCards
 
         $this->setDisplay();
     }
-
-    public function getDisplayAPI()
+    /**
+    * @return array<int,  array<string, string|int>> The display of the cards in the deck for API.
+    * Each card is represented by its graphic, color, and number.
+    */
+    public function getDisplayAPI(): array
     {
         $this->cardDisplayAPI = []; // Reset the array to avoid duplication
         foreach ($this->cards as $currcard) {
@@ -42,6 +48,9 @@ class DeckOfCards
         }
         return json_decode(json_encode($this->cardDisplayAPI, JSON_UNESCAPED_UNICODE), true);
     }
+    /**
+    * @return array<string, array<string, string>> The display of the cards in the deck.
+    */
     public function getDisplay()
     {
 
@@ -50,7 +59,12 @@ class DeckOfCards
 
     }
 
-    public function setDisplay()
+    /*
+    Sets the display of the cards in the deck, 
+    by creating an array of the cards.
+    Each card is represented by its graphic and color.
+    */
+    public function setDisplay(): void
     {
         $this->cardDisplay = array();
         foreach ($this->cards as $currcard) {
@@ -58,7 +72,10 @@ class DeckOfCards
         }
     }
 
-    public function shuffleCards()
+    /**
+    Shuffles the cards in the deck and sets the display.
+    */
+    public function shuffleCards(): void
     {
 
         shuffle($this->cards);
@@ -66,7 +83,7 @@ class DeckOfCards
 
     }
 
-    public function sortCards()
+    public function sortCards(): void
     {
 
         usort($this->cards, function ($a, $b) {
@@ -74,12 +91,21 @@ class DeckOfCards
         });
         $this->setDisplay();
     }
-
+    
+    /**
+    * Returns the cards in the deck.
+    * @return Card[] An array of Card objects representing the cards in the deck.
+    */
     public function getCards()
     {
         return $this->cards;
     }
-
+   /**
+     * Draws a specified number of cards from the deck.
+     *
+     * @param int|null $numofCards The number of cards to draw from the deck. If null, no cards are drawn.
+     * @return array<Card> An array of Card objects that have been drawn from the deck.
+     */
     public function drawCard($numofCards = null)
     {
         $heldCards = [];
@@ -96,7 +122,12 @@ class DeckOfCards
 
     }
 
-    public function getcardsLeft()
+    /**
+     * Returns the number of cards left in the deck.
+     *
+     * @return int The number of cards left in the deck.
+     */
+    public function getcardsLeft(): int
     {
         return count($this->cards);
     }

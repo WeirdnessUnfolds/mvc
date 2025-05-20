@@ -16,11 +16,11 @@ class Game
      * The game can be played by drawing cards and determining the winner.
      */
 
-    public $player;
-    public $cpuPlayer;
-    public $deck;
-    public $playerstopped = false;
-    public $cpustopped = false;
+    public Player $player;
+    public CpuPlayer $cpuPlayer;
+    public DeckOfCards $deck;
+    public bool $playerstopped = false;
+    public bool $cpustopped = false;
     public function __construct(Player $player, CpuPlayer $cpuPlayer, DeckOfCards $deck)
     {
         $this->player = $player;
@@ -30,16 +30,15 @@ class Game
     }
 
 
-    public function playerHasStopped(): bool
-    {
-        // Implement logic to check if player has stopped
-    }
 
-    public function cpuHasStopped(): bool
-    {
-        // Implement logic to check if CPU has stopped
-    }
-
+    /**
+     *  The winner is determined by the points of the player and the CPU player.
+     * If both players bust, the result is a tie.
+     * If the player busts, the CPU player wins.
+     * If the CPU player busts, the player wins.
+     * @return string $winner - The winner of the game.
+     * 
+     */
     public function getWinner(): string
     {
         $playerPoints = $this->player->getPoints();
@@ -69,7 +68,15 @@ class Game
 
     }
 
-    public function playGame($playerAction)
+    /**
+    * The main game loop that handles the player's actions and the CPU's actions.
+    * The player can draw cards or stop drawing cards.
+    * The CPU will draw cards based on its strategy.
+    * The game continues until a winner is determined or both players stop drawing cards.
+    * @param string $playerAction The action taken by the player.
+    * @return string $winner - The winner of the game.
+    */
+    public function playGame(string $playerAction) : string
     {
         // First turn: deal two cards each
         if ($playerAction === "first_turn") {
@@ -109,7 +116,7 @@ class Game
                 $this->cpustopped = true;
             }
         }
-        $this->cpustopped = true;
+     
 
         // If both have stopped, or if either busts, calculate winner
         if (
