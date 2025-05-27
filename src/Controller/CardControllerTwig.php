@@ -67,7 +67,7 @@ class CardControllerTwig extends AbstractController
         ]);
     }
 
-    #[Route("/game_landing", name: "game_landing", methods: ['GET'])]
+    #[Route("/game", name: "game_landing", methods: ['GET'])]
     public function gameLanding(): Response
     {
 
@@ -75,7 +75,7 @@ class CardControllerTwig extends AbstractController
         return $this->render('game_landing.html.twig');
     }
 
-    #[Route("/gamedoc", name: "gamedoc", methods: ['GET'])]
+    #[Route("/game/doc", name: "gamedoc", methods: ['GET'])]
     public function gameDoc(): Response
     {
         return $this->render('gamedoc.html.twig');
