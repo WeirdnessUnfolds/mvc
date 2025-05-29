@@ -133,7 +133,7 @@ class Game
         }
     }
 
-    private function handleCpuTurn(): void
+    public function handleCpuTurn(): void
     {
         while ($this->cpuPlayer->makeMove() === "draw") {
             $this->cpuPlayer->drawCard($this->deck->drawCard(1));
