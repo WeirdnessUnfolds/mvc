@@ -37,7 +37,7 @@ class Game
      * If the player busts, the CPU player wins.
      * If the CPU player busts, the player wins.
      * @return string $winner - The winner of the game.
-     * 
+     *
      */
     public function getWinner(): string
     {

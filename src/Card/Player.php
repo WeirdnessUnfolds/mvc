@@ -66,8 +66,7 @@ class Player
     */
     public function viewHand(): array
     {
-        dump($this->hand);
-        dump($this->hand->viewHand());
+
         return $this->hand->viewHand();
     }
 }

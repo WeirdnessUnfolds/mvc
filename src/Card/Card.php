@@ -19,10 +19,13 @@ class Card
     public function __construct(?int $enteredValue = null)
     {
         if ($enteredValue == null) { // If no value between 1 and 53 is entered, a random card is shown.
-            $this->cardValue = random_int(1, 53);
-        } 
+            $enteredValue = random_int(1, 53);
+
+        }
+
         $this->cardValue = $enteredValue;
         $this->cardGraphic = null;
+        $this->utf8Card = null;
     }
 
     /**
@@ -107,7 +110,7 @@ class Card
         // Find the suit base
         foreach (array_reverse(array_keys($suitBases)) as $start) {
             if ($this->cardValue >= $start) {
-            $this->utf8Card = $suitBases[$start];
+                $this->utf8Card = $suitBases[$start];
                 break;
             }
         }
@@ -125,7 +128,7 @@ class Card
                 ++$this->utf8Card;
             }
             ++$this->utf8Card;
-        }   
+        }
 
         return mb_chr($this->utf8Card, "UTF-8");
     }

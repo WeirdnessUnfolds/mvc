@@ -98,7 +98,7 @@ class CardControllerTwig extends AbstractController
             // Session needs to be an instance of a Symfony session.
             if ($session instanceof \Symfony\Component\HttpFoundation\Session\Session) {
                 $session->getFlashBag()->clear();
-                }
+            }
             $this->addFlash('success', 'Sessionen har blivit rensad, du kan nu spela igen.');
             return $this->render('game_landing.html.twig');
         }
@@ -116,7 +116,7 @@ class CardControllerTwig extends AbstractController
 
         }
         $player = $session->get("player");
-        
+
 
         if (!$cpu) {
             $cpu = new CpuPlayer();
@@ -129,7 +129,7 @@ class CardControllerTwig extends AbstractController
         if (!$game) {
             $game = new Game($player, $cpu, $deck);
             $session->set("game", $game);
-        } 
+        }
         $game = $session->get("game");
 
 
@@ -140,7 +140,7 @@ class CardControllerTwig extends AbstractController
 
         $winner = null; // No winner yet
 
-       
+
 
         $playerAction = $request->request->get('action', 'first_turn');
         if ($isFirstTurn) {

@@ -60,7 +60,7 @@ class DeckOfCards
     }
 
     /*
-    Sets the display of the cards in the deck, 
+    Sets the display of the cards in the deck,
     by creating an array of the cards.
     Each card is represented by its graphic and color.
     */
@@ -91,7 +91,7 @@ class DeckOfCards
         });
         $this->setDisplay();
     }
-    
+
     /**
     * Returns the cards in the deck.
     * @return Card[] An array of Card objects representing the cards in the deck.

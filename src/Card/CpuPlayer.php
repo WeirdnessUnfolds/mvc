@@ -17,7 +17,7 @@ class CpuPlayer extends Player
     The CPU player will draw a card if its points are less than 17,
     otherwise it will stop drawing cards.
     The CPU player will not draw a card if it has already stopped.
-     * 
+     *
      */
     public function makeMove(): string
     {

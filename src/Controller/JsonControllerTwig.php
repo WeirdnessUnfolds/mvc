@@ -29,7 +29,7 @@ class JsonControllerTwig extends AbstractController
         if (!$deck) {
             $deck = new DeckOfCards();
             $session->set("active_deck", $deck);
-        } 
+        }
         $deck = $session->get("active_deck");
         $data = [
             "deckView" => $deck->getDisplay(),
